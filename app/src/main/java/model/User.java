@@ -8,14 +8,16 @@ public class User {
     private String email;
     private String phoneNumber;
     private Location location;
+    private String profilePicture;
 
-    public User(String username, String name, String password, String email, String phoneNumber, Location location) {
+    public User(String username, String name, String password, String email, String phoneNumber, Location location, String profilePicture) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.location = location;
+        this.profilePicture = profilePicture;
     }
 
     public User(){
@@ -69,6 +71,10 @@ public class User {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public String getProfilePicture(){ return profilePicture;}
+
+    public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture;}
 
     @Override
     public String toString() {
