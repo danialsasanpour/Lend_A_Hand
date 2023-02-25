@@ -1,7 +1,10 @@
 package model;
 
+import java.util.UUID;
+
 public class Location {
 
+    private String locationId;
     private String street;
     private String city;
     private String state;
@@ -11,6 +14,7 @@ public class Location {
     private double longitude;
 
     public Location(String street, String city, String state, String postalCode, String country, double latitude, double longitude) {
+        this.locationId = UUID.randomUUID().toString();
         this.street = street;
         this.city = city;
         this.state = state;
@@ -21,9 +25,11 @@ public class Location {
     }
 
     public Location() {
+        this.locationId = UUID.randomUUID().toString();
     }
 
     public Location(String street, String city, String state, String postalCode, String country) {
+        this.locationId = UUID.randomUUID().toString();
         this.street = street;
         this.city = city;
         this.state = state;
@@ -32,6 +38,7 @@ public class Location {
     }
 
     public Location(double latitude, double longitude) {
+        this.locationId = UUID.randomUUID().toString();
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -90,6 +97,14 @@ public class Location {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationId() {
+        return locationId;
     }
 
     @Override

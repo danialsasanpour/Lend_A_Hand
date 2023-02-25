@@ -7,10 +7,11 @@ public class User {
     private String password;
     private String email;
     private String phoneNumber;
-    private Location location;
+    private String location;
     private String profilePicture;
+    private double radius;
 
-    public User(String username, String name, String password, String email, String phoneNumber, Location location, String profilePicture) {
+    public User(String username, String name, String password, String email, String phoneNumber, String location, String profilePicture, double radius) {
         this.username = username;
         this.name = name;
         this.password = password;
@@ -18,6 +19,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.profilePicture = profilePicture;
+        this.radius = radius;
     }
 
     public User(){
@@ -64,17 +66,21 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
     public String getProfilePicture(){ return profilePicture;}
 
     public void setProfilePicture(String profilePicture){ this.profilePicture = profilePicture;}
+
+    public double getRadius(){ return radius;}
+
+    public void setRadius(float radius){ this.radius = radius;}
 
     @Override
     public String toString() {

@@ -9,11 +9,11 @@ public class Post {
     private String createdBy;
     private Category category;
     private String description;
-    private Location location;
+    private String location;
     private LocalDate timeFrame;
     private double price;
 
-    public Post(String createdBy, Category category, String description, Location location, LocalDate timeFrame) {
+    public Post(String createdBy, Category category, String description, String location, LocalDate timeFrame) {
         this.postId = UUID.randomUUID().toString();
         this.createdBy = createdBy;
         this.category = category;
@@ -58,11 +58,11 @@ public class Post {
         this.description = description;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

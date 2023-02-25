@@ -49,7 +49,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/imgProfileImage"
+            android:id="@+id/imgProfilePicture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:srcCompat="@tools:sample/avatars"
@@ -80,7 +80,7 @@
         android:layout_marginHorizontal="20dp">
 
         <TextView
-            android:id="@+id/textlend"
+            android:id="@+id/tvLend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lend a helping hand to those around you "
@@ -332,6 +332,7 @@
             android:layout_weight="1"></Space>
 
         <ImageButton
+            android:id="@+id/imageButtonAccount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_baseline_person_24"

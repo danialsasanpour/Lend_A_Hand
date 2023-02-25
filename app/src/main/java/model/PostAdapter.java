@@ -20,6 +20,7 @@ public class PostAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Post> listOfPosts;
 
+
     public PostAdapter(Context context, ArrayList<Post> listOfPosts){
         this.context = context;
         this.listOfPosts = listOfPosts;
