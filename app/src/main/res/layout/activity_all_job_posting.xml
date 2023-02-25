@@ -96,7 +96,7 @@
                 app:srcCompat="@drawable/ic_baseline_filter_list_24"
                 tools:ignore="TouchTargetSizeCheck"
                 android:layout_weight="1"
-                android:background="background:@null"
+                android:background="@android:color/transparent"
                 />
 
 
@@ -375,7 +375,7 @@
             android:layout_gravity="left"
             android:layout_marginRight="220dp"
             android:layout_marginBottom="20dp"
-            android:background="background:@null"
+            android:background="@android:color/transparent"
             android:text="More"
             android:textAllCaps="false"
             android:textColor="#00bfff"
@@ -413,7 +413,7 @@
             app:srcCompat="@drawable/ic_baseline_home_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"
+            android:background="@android:color/transparent"
             />
 
         <Space
@@ -429,7 +429,7 @@
             app:srcCompat="@drawable/ic_baseline_chat_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
 
 
         <Space
@@ -443,7 +443,7 @@
             app:srcCompat="@drawable/ic_baseline_person_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
 

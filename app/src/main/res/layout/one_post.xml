@@ -72,7 +72,7 @@
                 android:textAllCaps="false"
                 android:textColor="#ff0000"
                 android:textStyle="bold"
-                app:cornerRadius="30dp" />
+                 />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
