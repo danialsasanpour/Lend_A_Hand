@@ -63,7 +63,7 @@ public class PostAdapter extends BaseAdapter {
         tvName.setText(post.getCreatedBy());
         // Need to add profile picture
 
-        
+
 
         // Need to implement the button
         btnDetails.setOnClickListener(new View.OnClickListener() {
