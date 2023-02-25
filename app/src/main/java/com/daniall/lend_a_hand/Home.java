@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,29 +70,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
 
 
-        currentUser = new User();
-        currentUser.setName("Joseph");
-        currentUser.setUsername("josephjoestar");
-        currentUser.setLocation("l100");
-        currentUser.setRadius(10);
-
-        currentUserLocation = new Location();
-        currentUserLocation.setLatitude(45.4917341388098);
-        currentUserLocation.setLongitude(-73.58159979725461);
-
-
-
 
 
         // Currently the user josephjoestar
-/*
+        // This needs to change once the current user and the user's current location is sent via intents
+
         users.child("josephjoestar").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists())
                 {
-                    currentUser = new User();
                     currentUser = snapshot.getValue(User.class);
+                    getCurrentUserLocation();
+                    findPostsBasedOnUserRadius();
                 }
 
             }
@@ -101,6 +93,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             }
         });
 
+
+
+    }
+
+    private void getCurrentUserLocation() {
         // Current user location
         locations.child(currentUser.getLocation()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,14 +113,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
             }
         });
-
-*/
-
-        findPostsBasedOnUserRadius();
-
-
     }
-
 
     @Override
     public void onClick(View v) {
@@ -169,12 +159,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
                                 if (distance < currentUser.getRadius())
                                 {
-                                    Toast.makeText(Home.this, post.toString(), Toast.LENGTH_LONG).show();
                                     listOfPosts.add(post);
-
-
                                     adapter = new PostAdapter(context, listOfPosts);
-                                    Toast.makeText(context, String.valueOf(listOfPosts.size()), Toast.LENGTH_LONG).show();
                                     lvPosts.setAdapter(adapter);
                                 }
 
