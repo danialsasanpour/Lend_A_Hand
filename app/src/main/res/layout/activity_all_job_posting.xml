@@ -96,7 +96,7 @@
                 app:srcCompat="@drawable/ic_baseline_filter_list_24"
                 tools:ignore="TouchTargetSizeCheck"
                 android:layout_weight="1"
-                android:background="background:@null"
+                android:background="@android:color/transparent"
                 />
 
 
@@ -124,6 +124,19 @@
         android:layout_marginVertical="2dp"
         />
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="30dp"
+        android:padding="10dp"
+        android:background="#d3d3d3"
+        android:elevation="100dp"
+        >
+
+
+    </ListView>
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -342,7 +355,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+-->
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -362,7 +375,7 @@
             android:layout_gravity="left"
             android:layout_marginRight="220dp"
             android:layout_marginBottom="20dp"
-            android:background="background:@null"
+            android:background="@android:color/transparent"
             android:text="More"
             android:textAllCaps="false"
             android:textColor="#00bfff"
@@ -400,7 +413,7 @@
             app:srcCompat="@drawable/ic_baseline_home_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"
+            android:background="@android:color/transparent"
             />
 
         <Space
@@ -416,7 +429,7 @@
             app:srcCompat="@drawable/ic_baseline_chat_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
 
 
         <Space
@@ -430,7 +443,7 @@
             app:srcCompat="@drawable/ic_baseline_person_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
 
