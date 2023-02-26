@@ -46,7 +46,8 @@
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        >
 
         <TextView
             android:id="@+id/text"
@@ -109,7 +110,8 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" >
 
         <EditText
             android:id="@+id/editTextFirstName"
@@ -133,13 +135,24 @@
             android:minHeight="48dp" />
 
         <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Username..."
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Email or Username..."
+            android:hint="Email"
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
