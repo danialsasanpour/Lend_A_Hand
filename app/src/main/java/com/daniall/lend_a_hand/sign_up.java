@@ -3,6 +3,7 @@ package com.daniall.lend_a_hand;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -88,6 +89,10 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener, 
 
                 users.child(edUsername.getText().toString()).setValue(newUser);
                 Toast.makeText(this,"Your account has been created successfully!", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(this, sign_in.class);
+                i.putExtra("Username", edUsername.getText().toString());
+                startActivity(i);
 
             } catch (Exception e) {
                 Toast.makeText(this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
