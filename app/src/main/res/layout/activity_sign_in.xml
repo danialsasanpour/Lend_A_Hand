@@ -51,7 +51,7 @@
         android:layout_marginLeft="20dp">
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -60,7 +60,7 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
