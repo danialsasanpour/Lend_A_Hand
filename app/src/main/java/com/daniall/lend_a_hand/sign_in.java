@@ -26,8 +26,6 @@ public class sign_in extends AppCompatActivity implements View.OnClickListener, 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference users = root.getReference("Users");
 
-    String username;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +37,6 @@ public class sign_in extends AppCompatActivity implements View.OnClickListener, 
     private void initialize()
     {
         edUsername = findViewById(R.id.editTextUsername);
-        username = (String) getIntent().getExtras().getSerializable("Username");
-        if (username != null) {
-            edUsername.setText(username);
-        }
         edPassword = findViewById(R.id.editTextPassword);
 
         btnSignUp = findViewById(R.id.btnSignUp);
