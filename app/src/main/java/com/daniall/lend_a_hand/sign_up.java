@@ -91,7 +91,6 @@ public class sign_up extends AppCompatActivity implements View.OnClickListener, 
                 Toast.makeText(this,"Your account has been created successfully!", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(this, sign_in.class);
-                i.putExtra("Username", edUsername.getText().toString());
                 startActivity(i);
 
             } catch (Exception e) {
