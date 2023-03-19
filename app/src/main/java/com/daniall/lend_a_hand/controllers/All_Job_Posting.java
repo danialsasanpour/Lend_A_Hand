@@ -1,8 +1,10 @@
-package com.daniall.lend_a_hand;
+package com.daniall.lend_a_hand.controllers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.daniall.lend_a_hand.R;
 
 public class All_Job_Posting extends AppCompatActivity {
 
