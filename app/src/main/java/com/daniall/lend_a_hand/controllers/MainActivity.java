@@ -1,14 +1,16 @@
-package com.daniall.lend_a_hand;
+package com.daniall.lend_a_hand.controllers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Making_Post extends AppCompatActivity {
+import com.daniall.lend_a_hand.R;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_making_post);
+        setContentView(R.layout.activity_main);
     }
 }
