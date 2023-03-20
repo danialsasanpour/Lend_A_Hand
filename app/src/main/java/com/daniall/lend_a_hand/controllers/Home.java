@@ -3,9 +3,17 @@ package com.daniall.lend_a_hand.controllers;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,7 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daniall.lend_a_hand.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.ChildEventListener;
@@ -47,12 +64,22 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     ArrayList<Post> listOfPosts;
     PostAdapter adapter;
     User currentUser;
-    Location currentUserLocation;
+
+    // FuseLocationObject
+    FusedLocationProviderClient mFusedLocationClient;
+    final int PERMISSION_ID = 4444;
+
+    static int counter = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         initialize();
     }
@@ -69,52 +96,71 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         imageButtonSearch.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
 
-
-
-
-
-        // Currently the user josephjoestar
-        // This needs to change once the current user and the user's current location is sent via intents
-
-        users.child("josephjoestar").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
-                    currentUser = snapshot.getValue(User.class);
-                    getCurrentUserLocation();
-                    findPostsBasedOnUserRadius();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        currentUser =  (User) getIntent().getExtras().getSerializable("currentUser");
+        getLastLocation();
 
     }
 
-    private void getCurrentUserLocation() {
-        // Current user location
-        locations.child(currentUser.getLocation()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
-                    currentUserLocation = snapshot.getValue(Location.class);
-                }
-            }
+    @SuppressLint("MissingPermission")
+    public void getLastLocation() {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
+        if (checkPermissions()) {
+
+            // check if location is enabled
+            if (isLocationEnabled()) {
+
+                @SuppressLint("MissingPermission") Task<android.location.Location> locationTask = mFusedLocationClient.getLastLocation();
+                locationTask.addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
+                    @Override
+                    public void onSuccess(android.location.Location location) {
+                        Toast.makeText(context, "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                        findPostsBasedOnUserRadius(location);
+                        Log.d("Location", "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude());
+                    }
+                });
+
+
+
+            } else {
+                Toast.makeText(this, "Please turn on your location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
             }
-        });
+        } else {
+            requestPermissions();
+        }
     }
+
+
+
+
+
+
+    public boolean checkPermissions() {
+
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void requestPermissions() {
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    // Checking if location is enabled
+    public boolean isLocationEnabled() {
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -136,7 +182,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
 
 
-    private void findPostsBasedOnUserRadius(){
+    private void findPostsBasedOnUserRadius(android.location.Location currentUserLocation){
 
         listOfPosts = new ArrayList<Post>();
 
@@ -152,8 +198,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
                             Location location = snapshot.getValue(Location.class);
 
-                            if (snapshot.getKey().equals(post.getLocation()))
+
+                            if (location.getLocationId().equals(post.getLocation()))
                             {
+
                                 double distance = calculateDistance(new LatLng(location.getLatitude(), location.getLongitude()),
                                         new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude())
                                         );
@@ -221,32 +269,25 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
 
 
-    private void testingFirebase() {
-        posts.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren())
-                {
-                    Post post = ds.getValue(Post.class);
-                    if (post.getCreatedBy().equals("sherrinfordh23"))
-                        Toast.makeText(context, post.getPostId(), Toast.LENGTH_LONG).show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-                    /*
-                    if(ds.getKey().equals("sherrinfordh23"))
-                    {
-                        User user = ds.getValue(User.class);
-                        Toast.makeText(context, user.getEmail(), Toast.LENGTH_LONG).show();
-                    }
-
-                     */
-                }
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                return;
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkPermissions()) {
+            return;
+        }
+    }
+
 
 }
