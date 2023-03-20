@@ -45,6 +45,9 @@ public class sign_in extends AppCompatActivity implements View.OnClickListener, 
 
         btnSignIn = findViewById(R.id.btnSignIn);
         btnSignIn.setOnClickListener(this);
+
+        edUsername.setText("sherrinfordh23");
+        edPassword.setText("mismatchedsocks23");
     }
 
     @Override
