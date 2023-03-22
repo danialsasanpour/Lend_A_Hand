@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.231" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.231" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_all_job_posting.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_home.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_main.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_making_post.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_post_description.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_sign_in.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/activity_sign_up.xml" value="0.25052083333333336" />
+        <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/Lend_A_Hand/app/src/main/res/layout/one_post.xml" value="0.25052083333333336" />
         <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.256" />
         <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/app/src/main/res/drawable/ic_baseline_filter_list_24.xml" value="0.256" />
         <entry key="..\:/AndroidProjectFall2022/Lend_A_Hand/app/src/main/res/drawable/ic_launcher_background.xml" value="0.256" />
