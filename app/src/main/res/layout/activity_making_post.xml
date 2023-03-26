@@ -108,7 +108,7 @@
 
 
             <TextView
-                android:id="@+id/txtEvelyn"
+                android:id="@+id/edDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -136,7 +136,7 @@
                 app:srcCompat="@drawable/ic_baseline_search_24"
                 tools:ignore="TouchTargetSizeCheck"
                 android:layout_weight="1"
-                android:background="background:@null"
+                android:background="@android:color/transparent"
                 />
 
         </LinearLayout>
@@ -325,7 +325,7 @@
             android:layout_marginBottom="5dp">
 
             <EditText
-                android:id="@+id/Location"
+                android:id="@+id/edLocation"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -344,7 +344,7 @@
                 app:srcCompat="@drawable/ic_baseline_search_24"
                 tools:ignore="TouchTargetSizeCheck"
                 android:layout_weight="1"
-                android:background="background:@null"
+                android:background="@android:color/transparent"
                 />
         </LinearLayout>
 
@@ -399,7 +399,7 @@
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
                     tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
-                    android:background="background:@null"
+                    android:background="@android:color/transparent"
                     />
 
                 <Space
@@ -428,7 +428,7 @@
                     app:srcCompat="@drawable/ic_baseline_access_time_24"
                     tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
-                    android:background="background:@null"
+                    android:background="@android:color/transparent"
                     />
             </LinearLayout>
 
@@ -469,7 +469,7 @@
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
                     tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
-                    android:background="background:@null"
+                    android:background="@android:color/transparent"
                     />
 
                 <Space
@@ -498,7 +498,7 @@
                     app:srcCompat="@drawable/ic_baseline_access_time_24"
                     tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
-                    android:background="background:@null"
+                    android:background="@android:color/transparent"
                     />
             </LinearLayout>
 
@@ -557,7 +557,7 @@
             app:srcCompat="@drawable/ic_baseline_home_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"
+            android:background="@android:color/transparent"
             />
 
         <Space
@@ -573,7 +573,7 @@
             app:srcCompat="@drawable/ic_baseline_chat_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
 
 
         <Space
@@ -587,7 +587,7 @@
             app:srcCompat="@drawable/ic_baseline_person_24"
             tools:ignore="TouchTargetSizeCheck"
             android:layout_weight="1"
-            android:background="background:@null"/>
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
 
