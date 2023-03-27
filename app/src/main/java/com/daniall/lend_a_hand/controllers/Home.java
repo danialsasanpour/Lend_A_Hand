@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,7 +57,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
     TextView tvLend;
     ListView lvPosts;
-    ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount;
+    ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount, imageButtonAdd;
+    Button btnMore;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference users = root.getReference("Users");
@@ -94,10 +96,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonSearch = findViewById(R.id.imageButtonSearch);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
+        imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        btnMore = findViewById(R.id.btnMore);
 
         imageButtonHome.setOnClickListener(this);
         imageButtonSearch.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
+        imageButtonAdd.setOnClickListener(this);
+        btnMore.setOnClickListener(this);
 
         currentUser =  (User) getIntent().getExtras().getSerializable("currentUser");
         getLastLocation();
@@ -196,6 +202,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.imageButtonAccount:
 
+                break;
+            case R.id.imageButtonAdd:
+
+                Intent i = new Intent(this, Making_Post.class);
+                i.putExtra("currentUser", currentUser);
+                startActivity(i);
                 break;
         }
 

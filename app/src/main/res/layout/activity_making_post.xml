@@ -380,14 +380,17 @@
                 android:gravity="left"
                 android:layout_marginBottom="5dp">
 
-                <EditText
-                    android:id="@+id/dateFrom"
+                <TextView
+                    android:id="@+id/tvDateFrom"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="dd/mm/yyyy"
                     android:inputType="date"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:hint="dd/mm/yyyy"
+                    />
 
                 <Space
                     android:layout_width="wrap_content"
@@ -395,11 +398,10 @@
                     />
 
                 <ImageButton
-                    android:id="@+id/btnDateFrom"
+                    android:id="@+id/imgBtnDateFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-                    tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     />
@@ -418,6 +420,8 @@
                     android:hint="Time..."
                     android:inputType="time"
                     android:minHeight="48dp"
+                    android:textSize="16sp"
+                    android:gravity="center"
                     />
 
                 <Space
@@ -452,25 +456,27 @@
                 android:gravity="left"
                 android:layout_marginBottom="5dp">
 
-                <EditText
-                    android:id="@+id/dateTo"
+                <TextView
+                    android:id="@+id/tvDateTo"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="dd/mm/yyyy"
                     android:inputType="date"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    />
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
 
                 <ImageButton
-                    android:id="@+id/btnDateTo"
+                    android:id="@+id/imgBtnDateTo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
-                    tools:ignore="TouchTargetSizeCheck"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     />
@@ -488,7 +494,9 @@
                     android:ems="10"
                     android:hint="Time..."
                     android:inputType="time"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
