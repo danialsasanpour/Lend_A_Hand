@@ -1,29 +1,68 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Post {
+public class Post implements Serializable {
 
     private String postId;
     private String createdBy;
-    private Category category;
+    //private Category category;
     private String description;
     private String location;
-    private LocalDate timeFrame;
+    private String dateFrom;
+    private String dateTo;
+    private String timeFrom;
+    private String timeTo;
     private double price;
 
-    public Post(String createdBy, Category category, String description, String location, LocalDate timeFrame) {
-        this.postId = UUID.randomUUID().toString();
+    public Post(String uid, String createdBy, String description, String location,
+                String dateFrom, String dateTo, String timeFrom, String timeTo) {
+        this.postId = uid;
         this.createdBy = createdBy;
-        this.category = category;
         this.description = description;
         this.location = location;
-        this.timeFrame = timeFrame;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
     }
 
     public Post() {
-        this.postId = UUID.randomUUID().toString();
+
+    }
+
+    public String getDateFrom() {
+        return dateFrom;
+    }
+
+    public void setDateFrom(String dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public String getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(String dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    public String getTimeFrom() {
+        return timeFrom;
+    }
+
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public String getTimeTo() {
+        return timeTo;
+    }
+
+    public void setTimeTo(String timeTo) {
+        this.timeTo = timeTo;
     }
 
     public String getPostId() {
@@ -42,14 +81,6 @@ public class Post {
         this.createdBy = createdBy;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -66,14 +97,6 @@ public class Post {
         this.location = location;
     }
 
-    public LocalDate getTimeFrame() {
-        return timeFrame;
-    }
-
-    public void setTimeFrame(LocalDate timeFrame) {
-        this.timeFrame = timeFrame;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -82,15 +105,19 @@ public class Post {
         this.price = price;
     }
 
+
+
     @Override
     public String toString() {
         return "Post{" +
                 "postId='" + postId + '\'' +
                 ", createdBy='" + createdBy + '\'' +
-                ", category=" + category +
                 ", description='" + description + '\'' +
                 ", location=" + location +
-                ", timeFrame=" + timeFrame +
+                ", from=" + dateFrom +
+                ", =" + timeFrom +
+                ", to=" + dateTo +
+                ", " + timeTo +
                 ", price=" + price +
                 '}';
     }
