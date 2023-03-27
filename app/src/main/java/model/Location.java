@@ -114,4 +114,8 @@ public class Location {
                 ", longitude=" + longitude +
                 '}';
     }
+
+    public String displayLocation() {
+        return street + ", " + city + ", " + state + ", " + postalCode + ".";
+    }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.daniall.lend_a_hand.R;
 import com.daniall.lend_a_hand.controllers.All_Job_Posting;
+import com.daniall.lend_a_hand.controllers.Home;
 import com.daniall.lend_a_hand.controllers.post_description;
 
 import java.lang.reflect.Array;
@@ -73,9 +75,12 @@ public class PostAdapter extends BaseAdapter {
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, post_description.class);
-                i.putExtra("onePost", post);
-                context.startActivity(i);
+                Intent intent = new Intent(context, post_description.class);
+                intent.putExtra("currentPost", post);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)context).finish();
+                context.startActivity(intent);
             }
         });
 

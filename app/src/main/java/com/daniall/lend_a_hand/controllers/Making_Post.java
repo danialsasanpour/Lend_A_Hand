@@ -85,7 +85,6 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         btnPost = findViewById(R.id.btnPost);
         btnPost.setOnClickListener(this);
 
-        edLocation.setText("2000 Saint-Catherine St W. Montreal, Quebec, Canada   H3H 2T2");
     }
 
     @Override
@@ -227,7 +226,7 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
             return;
         }
-;
+
 
         Location foundLocation = null;
         String address = edLocation.getText().toString();

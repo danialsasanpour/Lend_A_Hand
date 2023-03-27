@@ -102,7 +102,7 @@
         >
 
         <TextView
-            android:id="@+id/txtEvelyn"
+            android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -138,7 +138,7 @@
 
 
             <TextView
-                android:id="@+id/txtLocation"
+                android:id="@+id/tvLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="2000 Saint-Catherine St W. Montreal, Quebec, Canada   H3H 2T2"
@@ -182,14 +182,17 @@
                     android:gravity="left"
                     android:layout_marginBottom="5dp">
 
-                    <EditText
-                        android:id="@+id/Time"
+                    <TextView
+                        android:id="@+id/tvDateTimeFrom"
                         android:layout_width="290dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Thursday, November 23rd"
                         android:inputType="datetime"
-                        android:minHeight="48dp" />
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -225,14 +228,17 @@
                     android:gravity="left"
                     android:layout_marginBottom="5dp">
 
-                    <EditText
-                        android:id="@+id/Time2"
+                    <TextView
+                        android:id="@+id/tvDateTimeTo"
                         android:layout_width="290dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Friday, November 24th"
                         android:inputType="datetime"
-                        android:minHeight="48dp" />
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        />
 
                     <Space
                         android:layout_width="wrap_content"
