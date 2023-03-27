@@ -107,8 +107,8 @@
             android:gravity="left|center">
 
 
-            <TextView
-                android:id="@+id/txtEvelyn"
+            <EditText
+                android:id="@+id/edDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -325,7 +325,7 @@
             android:layout_marginBottom="5dp">
 
             <EditText
-                android:id="@+id/Location"
+                android:id="@+id/edLocation"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -380,20 +380,21 @@
                 android:layout_marginBottom="5dp">
 
                 <EditText
-                    android:id="@+id/Datefrom"
+                    android:id="@+id/dateFrom"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="dd/mm/yyyy"
                     android:inputType="date"
                     android:minHeight="48dp" />
+
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
 
                 <ImageButton
-                    android:id="@+id/imgBtnDate"
+                    android:id="@+id/btnDateFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
@@ -408,21 +409,22 @@
                     />
 
 
-                <EditText
-                    android:id="@+id/Timefrom"
+                <TextView
+                    android:id="@+id/tvTimeFrom"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Time..."
                     android:inputType="time"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    />
 
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <ImageButton
-                    android:id="@+id/imgBtnTime"
+                    android:id="@+id/imgBtnTimeFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_baseline_access_time_24"
@@ -450,7 +452,7 @@
                 android:layout_marginBottom="5dp">
 
                 <EditText
-                    android:id="@+id/Dateto"
+                    android:id="@+id/dateTo"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -463,7 +465,7 @@
                     />
 
                 <ImageButton
-                    android:id="@+id/imgBtnDateto"
+                    android:id="@+id/btnDateTo"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_baseline_calendar_month_24"
@@ -478,8 +480,8 @@
                     />
 
 
-                <EditText
-                    android:id="@+id/Timeto"
+                <TextView
+                    android:id="@+id/tvTimeTo"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
