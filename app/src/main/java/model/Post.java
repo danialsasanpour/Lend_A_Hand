@@ -121,4 +121,12 @@ public class Post implements Serializable {
                 ", price=" + price +
                 '}';
     }
+
+    public String getDateTimeFrom() {
+        return "Date: " + getDateFrom() + ". Time: " + getTimeFrom();
+    }
+
+    public String getDateTimeTo() {
+        return "Date: " + getDateTo() + ". Time: " + getTimeTo();
+    }
 }

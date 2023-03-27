@@ -203,11 +203,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             case R.id.imageButtonAccount:
 
                 break;
-            case R.id.imageButtonAdd:
 
-                Intent i = new Intent(this, Making_Post.class);
-                i.putExtra("currentUser", currentUser);
-                startActivity(i);
+            case R.id.imageButtonAdd:
+                Intent intent = new Intent(this, Making_Post.class);
+                intent.putExtra("currentUser", currentUser);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                finish();
+                startActivity(intent);
                 break;
         }
 
@@ -239,7 +242,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                                         new LatLng(currentUserLocation.getLatitude(), currentUserLocation.getLongitude())
                                         );
 
-                                if (distance < currentUser.getRadius())
+                                if (distance < currentUser.getRadius() && !post.getCreatedBy().equals(currentUser.getUsername()))
                                 {
                                     listOfPosts.add(post);
                                     adapter = new PostAdapter(context, listOfPosts);
