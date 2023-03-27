@@ -9,17 +9,15 @@ public class User implements Serializable {
     private String password;
     private String email;
     private String phoneNumber;
-    private String location;
     private String profilePicture;
     private double radius;
 
-    public User(String username, String name, String password, String email, String phoneNumber, String location, String profilePicture, double radius) {
+    public User(String username, String name, String password, String email, String phoneNumber, String profilePicture, double radius) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.location = location;
         this.profilePicture = profilePicture;
         this.radius = radius;
     }
@@ -68,13 +66,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public String getProfilePicture(){ return profilePicture;}
 
@@ -92,7 +84,6 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", location=" + location +
                 '}';
     }
 }

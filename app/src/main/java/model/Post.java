@@ -17,9 +17,9 @@ public class Post implements Serializable {
     private String timeTo;
     private double price;
 
-    public Post(String uid, String createdBy, String description, String location,
+    public Post(String createdBy, String description, String location,
                 String dateFrom, String dateTo, String timeFrom, String timeTo) {
-        this.postId = uid;
+        this.postId = UUID.randomUUID().toString();
         this.createdBy = createdBy;
         this.description = description;
         this.location = location;
