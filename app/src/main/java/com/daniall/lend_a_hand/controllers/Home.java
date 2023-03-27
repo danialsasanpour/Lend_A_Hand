@@ -51,6 +51,9 @@ import model.User;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
 
+    public static int count = 0;
+
+
     TextView tvLend;
     ListView lvPosts;
     ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount;
@@ -110,17 +113,20 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             // check if location is enabled
             if (isLocationEnabled()) {
 
-                @SuppressLint("MissingPermission") Task<android.location.Location> locationTask = mFusedLocationClient.getLastLocation();
-                locationTask.addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<android.location.Location>() {
                     @Override
-                    public void onSuccess(android.location.Location location) {
-                        Toast.makeText(context, "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-                        findPostsBasedOnUserRadius(location);
-                        Log.d("Location", "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude());
+                    public void onComplete(@NonNull Task<android.location.Location> task) {
+                        android.location.Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        }
+                        else {
+                            Log.d("Location", "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude());
+                            findPostsBasedOnUserRadius(location);
+                        }
+
                     }
                 });
-
-
 
             } else {
                 Toast.makeText(this, "Please turn on your location", Toast.LENGTH_LONG).show();
@@ -132,10 +138,25 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
 
+        LocationRequest mLocationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+                                                                        .setMaxUpdates(1).build();
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallBack, Looper.myLooper());
 
+    }
 
+    private LocationCallback mLocationCallBack = new LocationCallback() {
+        @Override
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            android.location.Location lastLocation = locationResult.getLastLocation();
+            Log.d("Location", "Latitude: " + lastLocation.getLatitude() + "\nLongitude: " + lastLocation.getLongitude());
+            findPostsBasedOnUserRadius(lastLocation);
+        }
+    };
 
     public boolean checkPermissions() {
 
@@ -275,7 +296,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                return;
+                getLastLocation();
             }
         }
 

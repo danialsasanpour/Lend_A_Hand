@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.daniall.lend_a_hand.controllers">
+    package="com.daniall.lend_a_hand">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,31 +19,35 @@
         android:theme="@style/Theme.Lend_A_Hand"
         tools:targetApi="31">
         <activity
-            android:name=".post_description"
+            android:name=".controllers.post_description"
             android:exported="false" />
         <activity
-            android:name=".All_Job_Posting"
+            android:name=".controllers.All_Job_Posting"
             android:exported="false" />
         <activity
-            android:name=".Making_Post"
+            android:name=".controllers.Making_Post"
             android:exported="false" />
         <activity
-            android:name=".sign_in"
-            android:exported="false" />
-        <activity
-            android:name=".sign_up"
-            android:exported="false" />
-        <activity
-            android:name=".Home"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".controllers.sign_in"
+            android:exported="true" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".controllers.sign_up"
+            android:exported="false" >
+
+        </activity>
+        <activity
+            android:name=".controllers.Home"
+            android:exported="false"/>
+        <activity
+            android:name=".controllers.MainActivity"
             android:exported="false"></activity>
     </application>
 
