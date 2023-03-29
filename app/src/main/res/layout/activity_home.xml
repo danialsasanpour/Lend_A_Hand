@@ -88,6 +88,21 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_weight="1"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Space>
+
+
+        <ImageButton
+            android:id="@+id/imageButtonRefresh"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_baseline_refresh_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
     </LinearLayout>
 
     <Space
