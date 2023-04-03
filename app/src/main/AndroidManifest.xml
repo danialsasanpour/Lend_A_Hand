@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Lend_A_Hand"
         tools:targetApi="31">
         <activity
+            android:name=".Chat_List"
+            android:exported="false" />
+        <activity
             android:name=".Chat_Page"
             android:exported="false" />
         <activity
