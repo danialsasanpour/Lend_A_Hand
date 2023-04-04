@@ -75,85 +75,18 @@
         />
 
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/lvMessages"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="#d3d3d3"
+
         >
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="10dp"
-            android:padding="5dp"
-            android:background="#2672C2"
-            android:elevation="100dp"
-            android:gravity="left"
-
-            >
-
-            <TextView
-                android:id="@+id/tvSender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Hi, I am available tomorrow morning
-            to move the snow."
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:padding="5dp"
-            android:background="#939393"
-            android:elevation="100dp"
-            android:gravity="left"
-
-            >
-
-            <TextView
-                android:id="@+id/tvReceived"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="What Time Can you be here?"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
-
+    </ListView>
 
     <Space
         android:layout_width="wrap_content"
