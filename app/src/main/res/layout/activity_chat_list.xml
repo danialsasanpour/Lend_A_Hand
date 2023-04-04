@@ -126,138 +126,15 @@
         />
 
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/lvLastMessages"
+        android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="440dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#d3d3d3">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            />
-
-        <LinearLayout
-            android:layout_width="390dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:background="#d3d3d3"
-            android:elevation="100dp"
-            android:gravity="left"
-
-            >
-
-            <ImageView
-                android:id="@+id/imgMessageReceiver"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                tools:srcCompat="@tools:sample/avatars"
-                android:layout_margin="15dp"/>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMessageSenderName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="Danial Sasanpour"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/black"
-                    android:gravity="left"
-                    android:textSize="22sp" />
-
-
-
-                <TextView
-                android:id="@+id/tvMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Hi I am available to shovel and move the snow..."
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            />
-
-        <LinearLayout
-            android:layout_width="390dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="10dp"
-            android:padding="10dp"
-            android:background="#d3d3d3"
-            android:elevation="100dp"
-            android:gravity="left"
-
-            >
-
-            <ImageView
-                android:id="@+id/imgMessageReceiver2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                tools:srcCompat="@tools:sample/avatars"
-                android:layout_margin="15dp"/>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMessageSenderName2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="Devin"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/black"
-                    android:gravity="left"
-                    android:textSize="22sp" />
-
-
-
-                <TextView
-                    android:id="@+id/tvMessage2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="Tnx... was a pleasure..."
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </ListView>
 
     <Space
         android:layout_width="match_parent"
