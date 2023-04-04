@@ -57,7 +57,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
     TextView tvLend;
     ListView lvPosts;
-    ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount, imageButtonAdd;
+    ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount, imageButtonAdd, imageButtonRefresh;
     Button btnMore;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -98,12 +98,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
         btnMore = findViewById(R.id.btnMore);
+        imageButtonRefresh = findViewById(R.id.imageButtonRefresh);
 
         imageButtonHome.setOnClickListener(this);
         imageButtonSearch.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
         imageButtonAdd.setOnClickListener(this);
         btnMore.setOnClickListener(this);
+        imageButtonRefresh.setOnClickListener(this);
 
         currentUser =  (User) getIntent().getExtras().getSerializable("currentUser");
         getLastLocation();
@@ -192,6 +194,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
+        if (v.getId() == R.id.imageButtonRefresh) {
+            getLastLocation();
+            return;
+        }
+
+
+        Intent intent = new Intent(this, Home.class);
         switch(v.getId())
         {
             case R.id.imageButtonHome:
@@ -203,16 +212,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             case R.id.imageButtonAccount:
 
                 break;
-
-            case R.id.imageButtonAdd:
-                Intent intent = new Intent(this, Making_Post.class);
+            case R.id.btnMore:
+                intent = new Intent(this, All_Job_Posting.class);
                 intent.putExtra("currentUser", currentUser);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                finish();
-                startActivity(intent);
+                break;
+            case R.id.imageButtonAdd:
+                intent = new Intent(this, Making_Post.class);
+                intent.putExtra("currentUser", currentUser);
                 break;
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+        startActivity(intent);
 
     }
 
