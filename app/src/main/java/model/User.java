@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
@@ -11,8 +12,9 @@ public class User implements Serializable {
     private String phoneNumber;
     private String profilePicture;
     private double radius;
+    private ArrayList<String> listOfChatLogs;
 
-    public User(String username, String name, String password, String email, String phoneNumber, String profilePicture, double radius) {
+    public User(String username, String name, String password, String email, String phoneNumber, String profilePicture, double radius, ArrayList<String> listOfChatLogs) {
         this.username = username;
         this.name = name;
         this.password = password;
@@ -20,6 +22,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;
         this.radius = radius;
+        this.listOfChatLogs = listOfChatLogs;
     }
 
     public User(){
@@ -75,6 +78,10 @@ public class User implements Serializable {
     public double getRadius(){ return radius;}
 
     public void setRadius(float radius){ this.radius = radius;}
+
+    public ArrayList<String> getListOfChatLogs(){ return listOfChatLogs;}
+
+    public void setListOfChatLogs(ArrayList<String> listOfChatLogs){ this.listOfChatLogs = listOfChatLogs;}
 
     @Override
     public String toString() {
