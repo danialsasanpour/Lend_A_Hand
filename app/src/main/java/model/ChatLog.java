@@ -9,6 +9,7 @@ public class ChatLog {
     private String user1;
     private String user2;
     private Message[] messages;
+    private String lastMessage;
 
     public ChatLog(String chatId, String user1, String user2, Message[] messages) {
         this.chatId = UUID.randomUUID().toString();
@@ -43,6 +44,14 @@ public class ChatLog {
 
     public void setUser2(String user2) {
         this.user2 = user2;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public Message[] getMessages() {
