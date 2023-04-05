@@ -24,11 +24,12 @@ public class PostAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Post> listOfPosts;
+    private User currentUser;
 
-
-    public PostAdapter(Context context, ArrayList<Post> listOfPosts){
+    public PostAdapter(Context context, ArrayList<Post> listOfPosts, User user){
         this.context = context;
         this.listOfPosts = listOfPosts;
+        this.currentUser = user;
     }
 
 
@@ -57,7 +58,7 @@ public class PostAdapter extends BaseAdapter {
         TextView tvName, tvDescription;
         Button btnDetails;
 
-        LayoutInflater inflater =LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
         oneItem = inflater.inflate(R.layout.one_post, viewGroup, false);
 
         tvDescription = oneItem.findViewById(R.id.tvDescription);
@@ -77,6 +78,7 @@ public class PostAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(context, post_description.class);
                 intent.putExtra("currentPost", post);
+                intent.putExtra("currentUser", currentUser);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ((Activity)context).finish();

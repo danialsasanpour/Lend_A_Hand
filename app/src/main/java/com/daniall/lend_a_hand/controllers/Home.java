@@ -257,7 +257,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                                 if (distance < currentUser.getRadius() && !post.getCreatedBy().equals(currentUser.getUsername()))
                                 {
                                     listOfPosts.add(post);
-                                    adapter = new PostAdapter(context, listOfPosts);
+                                    adapter = new PostAdapter(context, listOfPosts, currentUser);
                                     lvPosts.setAdapter(adapter);
                                 }
 

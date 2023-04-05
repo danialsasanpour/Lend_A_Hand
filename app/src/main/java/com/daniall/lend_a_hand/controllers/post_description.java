@@ -9,16 +9,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import model.Location;
 import model.Post;
 import model.User;
 
-public class post_description extends AppCompatActivity {
+public class post_description extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvDescription, tvLocation, tvDateTimeFrom, tvDateTimeTo;
+    Button btnReply;
 
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -40,6 +45,9 @@ public class post_description extends AppCompatActivity {
         tvLocation = findViewById(R.id.tvLocation);
         tvDateTimeFrom = findViewById(R.id.tvDateTimeFrom);
         tvDateTimeTo = findViewById(R.id.tvDateTimeTo);
+        btnReply = findViewById(R.id.btnReply);
+
+        btnReply.setOnClickListener(this);
 
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         currentPost = (Post) getIntent().getExtras().getSerializable("currentPost");
@@ -64,4 +72,18 @@ public class post_description extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnReply:
+                Intent intent = new Intent(this, Chat_Page.class);
+                intent.putExtra("currentUser", currentUser);
+                intent.putExtra("currentPost", currentPost);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                finish();
+                startActivity(intent);
+                break;
+        }
+    }
 }

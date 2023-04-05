@@ -1,17 +1,19 @@
 package model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class ChatLog {
+public class ChatLog implements Serializable {
 
     private String chatId;
     private String user1;
     private String user2;
-    private Message[] messages;
+    private ArrayList<Message> messages;
     private String lastMessage;
 
-    public ChatLog(String chatId, String user1, String user2, Message[] messages) {
+    public ChatLog(String chatId, String user1, String user2, ArrayList<Message> messages) {
         this.chatId = UUID.randomUUID().toString();
         this.user1 = user1;
         this.user2 = user2;
@@ -54,11 +56,11 @@ public class ChatLog {
         this.lastMessage = lastMessage;
     }
 
-    public Message[] getMessages() {
+    public ArrayList<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(Message[] messages) {
+    public void setMessages(ArrayList<Message> messages) {
         this.messages = messages;
     }
 
@@ -68,7 +70,6 @@ public class ChatLog {
                 "chatId='" + chatId + '\'' +
                 ", user1='" + user1 + '\'' +
                 ", user2='" + user2 + '\'' +
-                ", messages=" + Arrays.toString(messages) +
                 '}';
     }
 }
