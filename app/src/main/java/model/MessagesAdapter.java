@@ -54,6 +54,6 @@ public class MessagesAdapter extends BaseAdapter {
         tvMessage.setText(message.getMessage());
 
 
-        return null;
+        return oneItem;
     }
 }

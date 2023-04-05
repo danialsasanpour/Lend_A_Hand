@@ -6,9 +6,9 @@ public class Message {
 
     private String username;
     private String message;
-    private LocalDateTime timeSent;
+    private long timeSent;
 
-    public Message(String username, String message, LocalDateTime timeSent) {
+    public Message(String username, String message, long timeSent) {
         this.username = username;
         this.message = message;
         this.timeSent = timeSent;
@@ -33,11 +33,11 @@ public class Message {
         this.message = message;
     }
 
-    public LocalDateTime getTimeSent() {
+    public long getTimeSent() {
         return timeSent;
     }
 
-    public void setTimeSent(LocalDateTime timeSent) {
+    public void setTimeSent(long timeSent) {
         this.timeSent = timeSent;
     }
 
