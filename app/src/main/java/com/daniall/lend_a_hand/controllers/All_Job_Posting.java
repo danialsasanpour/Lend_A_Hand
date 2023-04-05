@@ -203,7 +203,7 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
                                 if (distance < currentUser.getRadius() && !post.getCreatedBy().equals(currentUser.getUsername()))
                                 {
                                     listOfPosts.add(post);
-                                    adapter = new PostAdapter(context, listOfPosts);
+                                    adapter = new PostAdapter(context, listOfPosts, currentUser);
                                     lvPosts.setAdapter(adapter);
                                 }
 
