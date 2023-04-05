@@ -77,6 +77,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         chatLogs.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     ChatLog chatLog = new ChatLog();
                     chatLog.setChatId(ds.child("chatId").getValue().toString());
@@ -84,11 +86,13 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                     chatLog.setUser2(ds.child("user2").getValue().toString());
 
 
+
                     if (!chatLog.getUser1().equals(currentUser.getUsername()) && !chatLog.getUser2().equals(currentUser.getUsername()))
                         return;
                     if (!chatLog.getUser1().equals(currentPost.getCreatedBy()) && !chatLog.getUser2().equals(currentPost.getCreatedBy()))
                         return;
 
+                    ds.getValue();
                     foundChatLog = chatLog;
 
                     ArrayList<Message> listOfMessages = new ArrayList<Message>();
