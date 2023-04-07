@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controllers.MainActivity"
+    android:orientation="vertical"
+    android:background="#f0ffff"
+    >
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginHorizontal="20dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_dialog_dialer"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="right|center">
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNewMessage"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Send Message"
+            app:cornerRadius="40dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#0C1893"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textSize="8sp"
+            />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginHorizontal="20dp">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:layout_marginRight="50dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginHorizontal="20dp">
+
+
+            <TextView
+                android:id="@+id/tvUsernameRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Danial Sasanpour"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/tvRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4/5"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/tvLend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What others have to say"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Space>
+
+
+        <ImageButton
+            android:id="@+id/imageButtonSetting"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_baseline_menu_24"
+            android:layout_gravity="center_vertical"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButtonBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_ios_new_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="110dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="#d3d3d3"
+            android:elevation="100dp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="left|center">
+
+
+                <TextView
+                    android:id="@+id/txtEvelyn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:text="Had a pleasure helping her. It was quick, easy and smooth."
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jayson"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonNext"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+
+
+
+
+    </LinearLayout>
+
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/imageButtonHome"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_baseline_home_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Space>
+
+
+        <ImageButton
+            android:id="@+id/imageButtonSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_baseline_chat_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></Space>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_baseline_person_24"
+            tools:ignore="TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
