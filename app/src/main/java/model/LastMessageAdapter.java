@@ -3,6 +3,7 @@ package model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,14 +59,23 @@ public class LastMessageAdapter extends BaseAdapter {
         else
             tvMessageReceiverName.setText(chatLog.getUser2());
 
-        tvLastMessage.setText(chatLog.getLastMessage());
+        if (chatLog.getMessages().get(chatLog.getMessages().size() - 1).getUsername().equals(currentUser.getUsername()))
+        {
+            tvLastMessage.setText("You: " + chatLog.getLastMessage());
+        }
+        else {
+            tvLastMessage.setText(chatLog.getLastMessage());
+        }
+
+        Log.d("value", chatLog.getLastMessage());
+
 
         oneItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Chat_Page.class);
                 intent.putExtra("currentUser", currentUser);
-                intent.putExtra("currentChatLog", chatLog.getChatId());
+                intent.putExtra("currentChatLog", chatLog);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ((Activity)context).finish();

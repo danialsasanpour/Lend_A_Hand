@@ -127,7 +127,7 @@
 
 
     <ListView
-        android:id="@+id/lvLastMessages"
+        android:id="@+id/lvChatList"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="440dp"

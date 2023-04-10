@@ -25,8 +25,19 @@ public class User implements Serializable {
         this.listOfChatLogs = listOfChatLogs;
     }
 
-    public User(){
+    public User(String username, String name, String password, String email, String phoneNumber, String profilePicture, double radius) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
+        this.radius = radius;
+        this.listOfChatLogs = new ArrayList<String>();
+    }
 
+    public User(){
+        this.listOfChatLogs = new ArrayList<String>();
     }
 
     public String getUsername() {
