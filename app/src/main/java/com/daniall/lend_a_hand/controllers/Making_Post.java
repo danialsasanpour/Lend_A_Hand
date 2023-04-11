@@ -43,7 +43,8 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
     EditText edDescription, edLocation;
     TextView tvTimeFrom, tvTimeTo, tvDateFrom, tvDateTo;
     Button btnPost;
-    ImageButton btnTimeTo, btnTimeFrom, btnDateFrom, btnDateTo;
+    ImageButton btnTimeTo, btnTimeFrom, btnDateFrom, btnDateTo,
+                imageButtonHome, imageButtonMessage, imageButtonAccount;
     User currentUser;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -64,6 +65,14 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
     private void initialize()
     {
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
+
+        imageButtonHome = findViewById(R.id.imageButtonHome);
+        imageButtonMessage = findViewById(R.id.imageButtonMessage);
+        imageButtonAccount = findViewById(R.id.imageButtonAccount);
+
+        imageButtonHome.setOnClickListener(this);
+        imageButtonMessage.setOnClickListener(this);
+        imageButtonAccount.setOnClickListener(this);
 
         edDescription = findViewById(R.id.edDescription);
         edLocation = findViewById(R.id.edLocation);
@@ -107,6 +116,27 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
                 setDates(view, tvDateTo);
                 break;
         }
+
+        Intent intent = new Intent(this, Home.class);
+        switch(view.getId())
+        {
+            case R.id.imageButtonHome:
+                intent = new Intent(this, Home.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonMessage:
+                intent = new Intent(this, Chat_List.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonAccount:
+                intent = new Intent(this, Account_Details.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+        startActivity(intent);
     }
 
     private void setDates(View view, TextView tvDate)

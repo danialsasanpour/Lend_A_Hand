@@ -12,8 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import model.Location;
@@ -24,6 +26,7 @@ public class post_description extends AppCompatActivity implements View.OnClickL
 
     TextView tvDescription, tvLocation, tvDateTimeFrom, tvDateTimeTo;
     Button btnReply;
+    ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount;
 
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -46,6 +49,14 @@ public class post_description extends AppCompatActivity implements View.OnClickL
         tvDateTimeFrom = findViewById(R.id.tvDateTimeFrom);
         tvDateTimeTo = findViewById(R.id.tvDateTimeTo);
         btnReply = findViewById(R.id.btnReply);
+
+        imageButtonHome = findViewById(R.id.imageButtonHome);
+        imageButtonMessage = findViewById(R.id.imageButtonMessage);
+        imageButtonAccount = findViewById(R.id.imageButtonAccount);
+
+        imageButtonHome.setOnClickListener(this);
+        imageButtonMessage.setOnClickListener(this);
+        imageButtonAccount.setOnClickListener(this);
 
         btnReply.setOnClickListener(this);
 
@@ -74,16 +85,32 @@ public class post_description extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+
+        Intent intent = new Intent(this, Home.class);
+        switch(v.getId())
+        {
+            case R.id.imageButtonHome:
+                intent = new Intent(this, Home.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonMessage:
+                intent = new Intent(this, Chat_List.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonAccount:
+                intent = new Intent(this, Account_Details.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
             case R.id.btnReply:
-                Intent intent = new Intent(this, Chat_Page.class);
+                intent = new Intent(this, Chat_Page.class);
                 intent.putExtra("currentUser", currentUser);
                 intent.putExtra("currentPost", currentPost);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                finish();
-                startActivity(intent);
+                Log.d("value", currentPost.getPostId());
                 break;
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+        startActivity(intent);
     }
 }

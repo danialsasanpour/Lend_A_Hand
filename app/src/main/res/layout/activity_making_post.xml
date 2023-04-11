@@ -577,7 +577,7 @@
 
 
         <ImageButton
-            android:id="@+id/imageButtonSearch"
+            android:id="@+id/imageButtonMessage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_baseline_chat_24"
@@ -592,6 +592,7 @@
             android:layout_weight="1"></Space>
 
         <ImageButton
+            android:id="@+id/imageButtonAccount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_baseline_person_24"

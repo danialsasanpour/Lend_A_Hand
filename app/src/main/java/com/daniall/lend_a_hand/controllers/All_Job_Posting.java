@@ -47,7 +47,7 @@ import model.User;
 public class All_Job_Posting extends AppCompatActivity implements View.OnClickListener{
 
 
-    ImageButton imageButtonRefresh;
+    ImageButton imageButtonRefresh, imageButtonHome, imageButtonMessage, imageButtonAccount;
     ListView lvPosts;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -76,9 +76,15 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
     private void initialize() {
 
         imageButtonRefresh = findViewById(R.id.imageButtonRefresh);
+        imageButtonHome = findViewById(R.id.imageButtonHome);
+        imageButtonMessage = findViewById(R.id.imageButtonMessage);
+        imageButtonAccount = findViewById(R.id.imageButtonAccount);
         lvPosts = findViewById(R.id.lvPosts);
 
         imageButtonRefresh.setOnClickListener(this);
+        imageButtonHome.setOnClickListener(this);
+        imageButtonMessage.setOnClickListener(this);
+        imageButtonAccount.setOnClickListener(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
@@ -89,11 +95,32 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageButtonRefresh:
-                getLastLocation();
+
+        if (v.getId() == R.id.imageButtonRefresh) {
+            getLastLocation();
+            return;
+        }
+
+
+        Intent intent = new Intent(this, Home.class);
+        switch(v.getId()) {
+            case R.id.imageButtonHome:
+                intent = new Intent(this, Home.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonMessage:
+                intent = new Intent(this, Chat_List.class);
+                intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonAccount:
+                intent = new Intent(this, Account_Details.class);
+                intent.putExtra("currentUser", currentUser);
                 break;
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+        startActivity(intent);
     }
 
 
