@@ -6,14 +6,23 @@ import com.daniall.lend_a_hand.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import model.User;
 
 public class Account_Details extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount;
-    User currentUser;
+    User currentUser, recipientUser;
+    ListView lvPosts;
+    Button btnPosts, btnLeaveReviewRating;
+    TextView tvUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +35,27 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
     private void initialize() {
 
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
+        recipientUser = (User) getIntent().getExtras().getSerializable("recipientUser");
 
+        lvPosts = findViewById(R.id.lvPosts);
+        tvUsername = findViewById(R.id.tvUsername);
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
+        btnPosts = findViewById(R.id.btnPosts);
+        btnLeaveReviewRating = findViewById(R.id.btnLeaveReviewRating);
 
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
+        btnPosts.setOnClickListener(this);
+        btnLeaveReviewRating.setOnClickListener(this);
+
+        if (recipientUser != null) {
+            tvUsername.setText(recipientUser.getUsername());
+        } else {
+            tvUsername.setText(currentUser.getUsername());
+        }
     }
 
 
