@@ -103,7 +103,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                         chatLog.setUser1(ds.child("user1").getValue().toString());
                         chatLog.setUser2(ds.child("user2").getValue().toString());
                         chatLog.setLastMessage(ds.child("lastMessage").getValue().toString());
-                        chatLog.setInterestedPost(ds.child("interestedPost").getValue().toString());
+                        chatLog.setInterestedPost(currentPost.getPostId());
 
                         //Toast.makeText(context, "Reached here", Toast.LENGTH_LONG).show();
                         if (!chatLog.getUser1().equals(currentUser.getUsername()) && !chatLog.getUser2().equals(currentUser.getUsername()))
@@ -135,6 +135,11 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
                 }
             });
+
+
+
+
+
         } else {
 
             foundChatLog = currentChatLog;
@@ -255,7 +260,6 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                 intent.putExtra("currentUser", currentUser);
                 intent.putExtra("currentPost", currentPost);
                 break;
-            case R.id.tvUsername:
 
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -281,6 +285,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             foundChatLog.getMessages().add(message);
             foundChatLog.setLastMessage(message.getMessage());
             chatLogs.child(foundChatLog.getChatId() + "/lastMessage").setValue(foundChatLog.getLastMessage());
+            chatLogs.child(foundChatLog.getChatId() + "/interestedPost").setValue(currentPost.getPostId());
             displayMessages(foundChatLog.getMessages());
 
             edMessage.setText("");
