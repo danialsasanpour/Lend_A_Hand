@@ -215,7 +215,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
         if (v.getId() == R.id.tvUsername)
         {
-            users.child(currentPost.getCreatedBy()).addListenerForSingleValueEvent(new ValueEventListener() {
+            users.child(tvUsername.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists())
@@ -240,6 +240,25 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             return;
         }
 
+        if (v.getId() == R.id.imageButtonViewPost)
+        {
+            if(currentPost ==  null)
+            {
+                Toast.makeText(context, "There is no interested post between two users in this chat log", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent intent = new Intent(this, post_description.class);
+            intent.putExtra("currentUser", currentUser);
+            intent.putExtra("currentPost", currentPost);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            finish();
+            startActivity(intent);
+            return;
+
+        }
+
+
         Intent intent = new Intent(this, Home.class);
         switch(v.getId())
         {
@@ -255,12 +274,6 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                 intent = new Intent(this, Account_Details.class);
                 intent.putExtra("currentUser", currentUser);
                 break;
-            case R.id.imageButtonViewPost:
-                intent = new Intent(this, post_description.class);
-                intent.putExtra("currentUser", currentUser);
-                intent.putExtra("currentPost", currentPost);
-                break;
-
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
