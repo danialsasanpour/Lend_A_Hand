@@ -80,7 +80,7 @@
             android:id="@+id/imageView"
             android:layout_width="80dp"
             android:layout_height="60dp"
-            tools:srcCompat="@tools:sample/avatars"
+            android:src="@drawable/defaultavatar"
             android:layout_marginRight="50dp"
             />
 
@@ -139,7 +139,7 @@
 
 
     <ListView
-        android:id="@+id/lbPosts"
+        android:id="@+id/lvPosts"
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:orientation="vertical"

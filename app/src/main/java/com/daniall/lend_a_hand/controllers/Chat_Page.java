@@ -105,12 +105,12 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                         chatLog.setLastMessage(ds.child("lastMessage").getValue().toString());
                         chatLog.setInterestedPost(ds.child("interestedPost").getValue().toString());
 
-
+                        //Toast.makeText(context, "Reached here", Toast.LENGTH_LONG).show();
                         if (!chatLog.getUser1().equals(currentUser.getUsername()) && !chatLog.getUser2().equals(currentUser.getUsername()))
-                            return;
+                            continue;
 
                         if (!chatLog.getUser1().equals(currentPost.getCreatedBy()) && !chatLog.getUser2().equals(currentPost.getCreatedBy()))
-                            return;
+                            continue;
 
                         ds.getValue();
                         foundChatLog = chatLog;
