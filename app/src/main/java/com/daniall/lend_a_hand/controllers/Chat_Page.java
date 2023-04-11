@@ -41,6 +41,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
     User currentUser;
     Post currentPost;
+    ChatLog currentChatLog;
     Context context = this;
     ChatLog foundChatLog;
     MessagesAdapter adapter;
@@ -49,6 +50,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
     DatabaseReference users = root.getReference("Users");
     DatabaseReference chatLogs = root.getReference("ChatLogs");
     DatabaseReference messages = root.getReference("Messages");
+    DatabaseReference posts = root.getReference("Posts");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,31 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         currentPost = (Post) getIntent().getExtras().getSerializable("currentPost");
+        currentChatLog = (ChatLog) getIntent().getExtras().getSerializable("currentChatLog");
+
+
+        if (currentPost == null)
+        {
+            posts.child(currentChatLog.getInterestedPost()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        currentPost = snapshot.getValue(Post.class);
+                        tvUsername.setText(currentPost.getCreatedBy());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        } else {
+            tvUsername.setText(currentPost.getCreatedBy());
+        }
+
+
 
         tvUsername = findViewById(R.id.tvUsername);
         imageUserProfilePicture = findViewById(R.id.imageUserProfilePicture);
@@ -69,11 +96,13 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         edMessage = findViewById(R.id.edMessage);
         imageButtonSend = findViewById(R.id.imageButtonSend);
 
-        tvUsername.setText(currentPost.getCreatedBy());
 
         imageButtonSend.setOnClickListener(this);
 
 
+
+
+        // Listening to sent messages from the other side and display messages sent real-time
         chatLogs.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,6 +113,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                     chatLog.setChatId(ds.child("chatId").getValue().toString());
                     chatLog.setUser1(ds.child("user1").getValue().toString());
                     chatLog.setUser2(ds.child("user2").getValue().toString());
+                    chatLog.setLastMessage(ds.child("lastMessage").getValue().toString());
+                    chatLog.setInterestedPost(currentPost.getPostId());
 
 
 
@@ -137,19 +168,24 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
         Message message = new Message(currentUser.getUsername(), edMessage.getText().toString(), System.currentTimeMillis());
 
-
+        // Make changes to existing chat log object if chat history is found
         if (foundChatLog != null) {
             chatLogs.child(foundChatLog.getChatId() + "/messages/" + message.getTimeSent()).setValue(message);
             foundChatLog.getMessages().add(message);
+            foundChatLog.setLastMessage(message.getMessage());
+            chatLogs.child(foundChatLog.getChatId() + "/lastMessage").setValue(foundChatLog.getLastMessage());
             displayMessages(foundChatLog.getMessages());
 
             edMessage.setText("");
             return;
         }
 
+        // Create and store a new chat log object when no chat history is found
         ChatLog chatLog = new ChatLog();
         chatLog.setUser1(currentUser.getUsername());
         chatLog.setUser2(currentPost.getCreatedBy());
+        chatLog.setLastMessage(message.getMessage());
+        chatLog.setInterestedPost(currentPost.getPostId());
 
         chatLogs.child(chatLog.getChatId()).setValue(chatLog);
         chatLogs.child(chatLog.getChatId() + "/messages/" + message.getTimeSent()).setValue(message);
@@ -157,6 +193,27 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         ArrayList<Message> newListOfMessages = new ArrayList<Message>();
         newListOfMessages.add(message);
         chatLog.setMessages(newListOfMessages);
+
+
+        //Adding new chat log for both users
+        currentUser.getListOfChatLogs().add(chatLog.getChatId());
+        users.child(currentUser.getUsername()).setValue(currentUser);
+        users.child(currentPost.getCreatedBy()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                    user.getListOfChatLogs().add(chatLog.getChatId());
+                    users.child(user.getUsername()).setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         foundChatLog = chatLog;
         displayMessages(foundChatLog.getMessages());

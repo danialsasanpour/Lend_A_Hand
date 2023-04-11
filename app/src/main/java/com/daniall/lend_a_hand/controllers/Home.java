@@ -45,6 +45,7 @@ import com.google.firebase.database.core.Tag;
 
 import java.util.ArrayList;
 
+import model.ChatLog;
 import model.Location;
 import model.Post;
 import model.PostAdapter;
@@ -57,7 +58,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
     TextView tvLend;
     ListView lvPosts;
-    ImageButton imageButtonHome, imageButtonSearch, imageButtonAccount, imageButtonAdd, imageButtonRefresh;
+    ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount, imageButtonAdd, imageButtonRefresh;
     Button btnMore;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -94,14 +95,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         tvLend = findViewById(R.id.tvLend);
         lvPosts = findViewById(R.id.lvPosts);
         imageButtonHome = findViewById(R.id.imageButtonHome);
-        imageButtonSearch = findViewById(R.id.imageButtonSearch);
+        imageButtonMessage = findViewById(R.id.imageButtonMessage);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
         btnMore = findViewById(R.id.btnMore);
         imageButtonRefresh = findViewById(R.id.imageButtonRefresh);
 
         imageButtonHome.setOnClickListener(this);
-        imageButtonSearch.setOnClickListener(this);
+        imageButtonMessage.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
         imageButtonAdd.setOnClickListener(this);
         btnMore.setOnClickListener(this);
@@ -206,8 +207,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             case R.id.imageButtonHome:
 
                 break;
-            case R.id.imageButtonSearch:
-
+            case R.id.imageButtonMessage:
+                intent = new Intent(this, Chat_List.class);
+                intent.putExtra("currentUser", currentUser);
                 break;
             case R.id.imageButtonAccount:
 

@@ -12,12 +12,14 @@ public class ChatLog implements Serializable {
     private String user2;
     private ArrayList<Message> messages;
     private String lastMessage;
+    private String interestedPost;
 
-    public ChatLog(String chatId, String user1, String user2, ArrayList<Message> messages) {
+    public ChatLog(String chatId, String user1, String user2, ArrayList<Message> messages, String interestedPost) {
         this.chatId = UUID.randomUUID().toString();
         this.user1 = user1;
         this.user2 = user2;
         this.messages = messages;
+        this.interestedPost = interestedPost;
     }
 
     public ChatLog(){
@@ -54,6 +56,14 @@ public class ChatLog implements Serializable {
 
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
+    }
+
+    public String getInterestedPost() {
+        return interestedPost;
+    }
+
+    public void setInterestedPost(String interestedPost) {
+        this.interestedPost = interestedPost;
     }
 
     public ArrayList<Message> getMessages() {
