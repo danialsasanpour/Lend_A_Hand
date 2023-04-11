@@ -38,7 +38,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
     ImageView imageUserProfilePicture;
     ListView lvMessages;
     EditText edMessage;
-    ImageButton imageButtonSend, imageButtonHome, imageButtonMessage, imageButtonAccount;
+    ImageButton imageButtonSend, imageButtonViewPost,
+            imageButtonHome, imageButtonMessage, imageButtonAccount;
 
     User currentUser;
     Post currentPost;
@@ -77,12 +78,14 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         lvMessages = findViewById(R.id.lvMessages);
         edMessage = findViewById(R.id.edMessage);
         imageButtonSend = findViewById(R.id.imageButtonSend);
+        imageButtonViewPost = findViewById(R.id.imageButtonViewPost);
 
 
         imageButtonSend.setOnClickListener(this);
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
+        imageButtonViewPost.setOnClickListener(this);
 
 
         if (currentChatLog == null)
@@ -164,6 +167,30 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                 }
             });
 
+            posts.child(foundChatLog.getInterestedPost()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        currentPost = new Post(
+                                snapshot.child("createdBy").getValue().toString(),
+                                snapshot.child("description").getValue().toString(),
+                                snapshot.child("location").getValue().toString(),
+                                snapshot.child("dateFrom").getValue().toString(),
+                                snapshot.child("dateTo").getValue().toString(),
+                                snapshot.child("timeFrom").getValue().toString(),
+                                snapshot.child("timeTo").getValue().toString()
+                        );
+                        currentPost.setPostId(snapshot.child("postId").getValue().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
 
@@ -194,6 +221,11 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             case R.id.imageButtonAccount:
                 intent = new Intent(this, Account_Details.class);
                 intent.putExtra("currentUser", currentUser);
+                break;
+            case R.id.imageButtonViewPost:
+                intent = new Intent(this, post_description.class);
+                intent.putExtra("currentUser", currentUser);
+                intent.putExtra("currentPost", currentPost);
                 break;
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
