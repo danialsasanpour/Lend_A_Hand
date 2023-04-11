@@ -69,6 +69,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         currentChatLog = (ChatLog) getIntent().getExtras().getSerializable("currentChatLog");
 
         tvUsername = findViewById(R.id.tvUsername);
+        tvUsername.setOnClickListener(this);
 
 
         imageUserProfilePicture = findViewById(R.id.imageUserProfilePicture);
@@ -207,6 +208,33 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             return;
         }
 
+        if (v.getId() == R.id.tvUsername)
+        {
+            users.child(currentPost.getCreatedBy()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        User recipientUser = snapshot.getValue(User.class);
+                        Intent intent = new Intent(context, Account_Details.class);
+                        intent.putExtra("currentUser", currentUser);
+                        intent.putExtra("recipientUser", recipientUser);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        finish();
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            return;
+        }
+
         Intent intent = new Intent(this, Home.class);
         switch(v.getId())
         {
@@ -227,6 +255,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                 intent.putExtra("currentUser", currentUser);
                 intent.putExtra("currentPost", currentPost);
                 break;
+            case R.id.tvUsername:
+
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
