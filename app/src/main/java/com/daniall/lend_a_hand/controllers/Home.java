@@ -205,14 +205,16 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         switch(v.getId())
         {
             case R.id.imageButtonHome:
-
+                intent = new Intent(this, Home.class);
+                intent.putExtra("currentUser", currentUser);
                 break;
             case R.id.imageButtonMessage:
                 intent = new Intent(this, Chat_List.class);
                 intent.putExtra("currentUser", currentUser);
                 break;
             case R.id.imageButtonAccount:
-
+                intent = new Intent(this, Account_Details.class);
+                intent.putExtra("currentUser", currentUser);
                 break;
             case R.id.btnMore:
                 intent = new Intent(this, All_Job_Posting.class);
