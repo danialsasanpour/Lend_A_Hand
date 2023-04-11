@@ -146,6 +146,11 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
                 intent = new Intent(this, Account_Details.class);
                 intent.putExtra("currentUser", currentUser);
                 break;
+            case R.id.btnPosts:
+                intent = new Intent(this, Posts_Created_By.class);
+                intent.putExtra("currentUser", currentUser);
+                intent.putExtra("recipientUser", recipientUser);
+                break;
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
