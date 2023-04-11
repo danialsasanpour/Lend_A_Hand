@@ -10,7 +10,7 @@ public class ReviewRating {
     private String review;
     private float rating;
 
-    public ReviewRating(String reviewId, String byUser, String toUser, String review, float rating) {
+    public ReviewRating(String byUser, String toUser, String review, float rating) {
         this.reviewId = UUID.randomUUID().toString();
         this.byUser = byUser;
         this.toUser = toUser;
