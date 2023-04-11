@@ -82,4 +82,15 @@ public class ChatLog implements Serializable {
                 ", user2='" + user2 + '\'' +
                 '}';
     }
+
+    public int compareTo(ChatLog o)
+    {
+        if (this.getMessages().get(this.getMessages().size()-1).getTimeSent() >
+                o.getMessages().get(o.getMessages().size()-1).getTimeSent())
+            return -1;
+        return 1;
+
+    }
+
+
 }

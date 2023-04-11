@@ -38,7 +38,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
     ImageView imageUserProfilePicture;
     ListView lvMessages;
     EditText edMessage;
-    ImageButton imageButtonSend, imageButtonHome, imageButtonMessage, imageButtonAccount;
+    ImageButton imageButtonSend, imageButtonViewPost,
+            imageButtonHome, imageButtonMessage, imageButtonAccount;
 
     User currentUser;
     Post currentPost;
@@ -68,6 +69,7 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         currentChatLog = (ChatLog) getIntent().getExtras().getSerializable("currentChatLog");
 
         tvUsername = findViewById(R.id.tvUsername);
+        tvUsername.setOnClickListener(this);
 
 
         imageUserProfilePicture = findViewById(R.id.imageUserProfilePicture);
@@ -77,12 +79,14 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         lvMessages = findViewById(R.id.lvMessages);
         edMessage = findViewById(R.id.edMessage);
         imageButtonSend = findViewById(R.id.imageButtonSend);
+        imageButtonViewPost = findViewById(R.id.imageButtonViewPost);
 
 
         imageButtonSend.setOnClickListener(this);
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
+        imageButtonViewPost.setOnClickListener(this);
 
 
         if (currentChatLog == null)
@@ -99,14 +103,14 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                         chatLog.setUser1(ds.child("user1").getValue().toString());
                         chatLog.setUser2(ds.child("user2").getValue().toString());
                         chatLog.setLastMessage(ds.child("lastMessage").getValue().toString());
-                        chatLog.setInterestedPost(ds.child("interestedPost").getValue().toString());
+                        chatLog.setInterestedPost(currentPost.getPostId());
 
-
+                        //Toast.makeText(context, "Reached here", Toast.LENGTH_LONG).show();
                         if (!chatLog.getUser1().equals(currentUser.getUsername()) && !chatLog.getUser2().equals(currentUser.getUsername()))
-                            return;
+                            continue;
 
                         if (!chatLog.getUser1().equals(currentPost.getCreatedBy()) && !chatLog.getUser2().equals(currentPost.getCreatedBy()))
-                            return;
+                            continue;
 
                         ds.getValue();
                         foundChatLog = chatLog;
@@ -131,6 +135,11 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
 
                 }
             });
+
+
+
+
+
         } else {
 
             foundChatLog = currentChatLog;
@@ -164,6 +173,30 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
                 }
             });
 
+            posts.child(foundChatLog.getInterestedPost()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        currentPost = new Post(
+                                snapshot.child("createdBy").getValue().toString(),
+                                snapshot.child("description").getValue().toString(),
+                                snapshot.child("location").getValue().toString(),
+                                snapshot.child("dateFrom").getValue().toString(),
+                                snapshot.child("dateTo").getValue().toString(),
+                                snapshot.child("timeFrom").getValue().toString(),
+                                snapshot.child("timeTo").getValue().toString()
+                        );
+                        currentPost.setPostId(snapshot.child("postId").getValue().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
 
@@ -179,6 +212,52 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             sendMessage();
             return;
         }
+
+        if (v.getId() == R.id.tvUsername)
+        {
+            users.child(tvUsername.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists())
+                    {
+                        User recipientUser = snapshot.getValue(User.class);
+                        Intent intent = new Intent(context, Account_Details.class);
+                        intent.putExtra("currentUser", currentUser);
+                        intent.putExtra("recipientUser", recipientUser);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        finish();
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            return;
+        }
+
+        if (v.getId() == R.id.imageButtonViewPost)
+        {
+            if(currentPost ==  null)
+            {
+                Toast.makeText(context, "There is no interested post between two users in this chat log", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Intent intent = new Intent(this, post_description.class);
+            intent.putExtra("currentUser", currentUser);
+            intent.putExtra("currentPost", currentPost);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            finish();
+            startActivity(intent);
+            return;
+
+        }
+
 
         Intent intent = new Intent(this, Home.class);
         switch(v.getId())
@@ -219,6 +298,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             foundChatLog.getMessages().add(message);
             foundChatLog.setLastMessage(message.getMessage());
             chatLogs.child(foundChatLog.getChatId() + "/lastMessage").setValue(foundChatLog.getLastMessage());
+            if (currentPost != null)
+                chatLogs.child(foundChatLog.getChatId() + "/interestedPost").setValue(currentPost.getPostId());
             displayMessages(foundChatLog.getMessages());
 
             edMessage.setText("");

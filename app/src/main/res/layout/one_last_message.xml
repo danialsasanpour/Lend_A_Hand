@@ -49,7 +49,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Hi I am available to shovel and move the snow..."
+            android:text="Hi I am available to shovel and move the snow snow snow"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

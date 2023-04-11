@@ -105,7 +105,6 @@ public class post_description extends AppCompatActivity implements View.OnClickL
                 intent = new Intent(this, Chat_Page.class);
                 intent.putExtra("currentUser", currentUser);
                 intent.putExtra("currentPost", currentPost);
-                Log.d("value", currentPost.getPostId());
                 break;
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
