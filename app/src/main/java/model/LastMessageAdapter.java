@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daniall.lend_a_hand.R;
 import com.daniall.lend_a_hand.controllers.Chat_Page;
@@ -59,15 +60,32 @@ public class LastMessageAdapter extends BaseAdapter {
         else
             tvMessageReceiverName.setText(chatLog.getUser2());
 
-        if (chatLog.getMessages().get(chatLog.getMessages().size() - 1).getUsername().equals(currentUser.getUsername()))
+
+        if (chatLog.getLastMessage().length() > 35)
         {
-            tvLastMessage.setText("You: " + chatLog.getLastMessage());
-        }
-        else {
-            tvLastMessage.setText(chatLog.getLastMessage());
+            if (chatLog.getMessages().get(chatLog.getMessages().size() - 1).getUsername().equals(currentUser.getUsername()))
+            {
+                tvLastMessage.setText("You: " + chatLog.getLastMessage().substring(0, 35) + "...");
+            }
+            else {
+                tvLastMessage.setText(chatLog.getLastMessage().substring(0, 35) + "...");
+            }
+        } else {
+            if (chatLog.getMessages().get(chatLog.getMessages().size() - 1).getUsername().equals(currentUser.getUsername()))
+            {
+                tvLastMessage.setText("You: " + chatLog.getLastMessage());
+            }
+            else {
+                tvLastMessage.setText(chatLog.getLastMessage());
+            }
+
         }
 
-        Log.d("value", chatLog.getLastMessage());
+
+
+
+
+
 
 
         oneItem.setOnClickListener(new View.OnClickListener() {

@@ -70,6 +70,7 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
 
         if (recipientUser != null) {
             tvPostsCreatedBy.setText(tvPostsCreatedBy.getText() + recipientUser.getUsername());
+            imageButtonAdd.setVisibility(View.GONE);
             posts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
