@@ -298,7 +298,8 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
             foundChatLog.getMessages().add(message);
             foundChatLog.setLastMessage(message.getMessage());
             chatLogs.child(foundChatLog.getChatId() + "/lastMessage").setValue(foundChatLog.getLastMessage());
-            chatLogs.child(foundChatLog.getChatId() + "/interestedPost").setValue(currentPost.getPostId());
+            if (currentPost != null)
+                chatLogs.child(foundChatLog.getChatId() + "/interestedPost").setValue(currentPost.getPostId());
             displayMessages(foundChatLog.getMessages());
 
             edMessage.setText("");
