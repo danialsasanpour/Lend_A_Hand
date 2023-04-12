@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.daniall.lend_a_hand.R;
+import com.google.android.material.slider.Slider;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -29,14 +31,16 @@ import model.ReviewAdapter;
 import model.ReviewRating;
 import model.User;
 
-public class Account_Details extends AppCompatActivity implements View.OnClickListener {
+public class Account_Details extends AppCompatActivity implements View.OnClickListener, Slider.OnSliderTouchListener {
 
     ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount;
-    User currentUser, recipientUser;
     ListView lvPosts;
-    Button btnPosts, btnLeaveReviewRating;
-    TextView tvUsername;
+    Button btnPosts, btnLeaveReviewRating, btnCancel, btnEditSave;
+    TextView tvUsername, tvRadius;
+    Slider sliderRadius;
 
+    User currentUser, recipientUser;
+    Double currentRadius;
     ArrayList<ReviewRating> listOfReviewRatings;
     ReviewAdapter adapter;
     Context context = this;
@@ -65,19 +69,25 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
         btnPosts = findViewById(R.id.btnPosts);
         btnLeaveReviewRating = findViewById(R.id.btnLeaveReviewRating);
+        sliderRadius = findViewById(R.id.sliderRadius);
+        tvRadius = findViewById(R.id.tvRadius);
+        btnCancel = findViewById(R.id.btnCancel);
+        btnEditSave = findViewById(R.id.btnEditSave);
 
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
         imageButtonAccount.setOnClickListener(this);
         btnPosts.setOnClickListener(this);
         btnLeaveReviewRating.setOnClickListener(this);
+        sliderRadius.addOnSliderTouchListener(this);
+        btnCancel.setOnClickListener(this);
+        btnEditSave.setOnClickListener(this);
 
-        if (recipientUser != null) {
-            tvUsername.setText(recipientUser.getUsername());
-        } else {
-            tvUsername.setText(currentUser.getUsername());
-            btnLeaveReviewRating.setVisibility(View.GONE);
-        }
+
+        checkIfIsCurrentUser();
+
+        sliderRadius.setValue((float)currentUser.getRadius());
+        tvRadius.setText("Radius: " + currentUser.getRadius() + " km");
 
         listOfReviewRatings = new ArrayList<ReviewRating>();
         reviews.addChildEventListener(new ChildEventListener() {
@@ -130,6 +140,35 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
 
+        if (v.getId() == R.id.btnEditSave)
+        {
+            if (sliderRadius.isEnabled())
+            {
+                sliderRadius.setEnabled(false);
+                btnCancel.setVisibility(View.GONE);
+                btnEditSave.setText("Edit");
+
+                currentUser.setRadius(currentRadius);
+                users.child(currentUser.getUsername() + "/radius").setValue(currentUser.getRadius());
+
+            } else {
+                sliderRadius.setEnabled(true);
+                btnCancel.setVisibility(View.VISIBLE);
+                btnEditSave.setText("Save");
+            }
+            return;
+        }
+
+        if (v.getId() == R.id.btnCancel)
+        {
+            sliderRadius.setEnabled(false);
+            btnCancel.setVisibility(View.GONE);
+            btnEditSave.setText("Edit");
+
+            return;
+        }
+
+
 
         Intent intent = new Intent(this, Home.class);
         switch(v.getId())
@@ -157,5 +196,36 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
         finish();
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onStartTrackingTouch(@NonNull Slider slider) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(@NonNull Slider slider) {
+        currentRadius = Math.round(slider.getValue() * 10.0) / 10.0;
+        tvRadius.setText("Radius: " + currentRadius + " km");
+    }
+
+    private void checkIfIsCurrentUser(){
+        ViewGroup.LayoutParams params = lvPosts.getLayoutParams();
+        if (recipientUser != null) {
+            tvUsername.setText(recipientUser.getUsername());
+            tvRadius.setVisibility(View.GONE);
+            sliderRadius.setVisibility(View.GONE);
+            btnEditSave.setVisibility(View.GONE);
+            params.height = params.height + 200;
+
+        } else {
+            tvUsername.setText(currentUser.getUsername());
+            btnLeaveReviewRating.setVisibility(View.GONE);
+            params.height = params.height + 200;
+            sliderRadius.setEnabled(false);
+        }
+        btnCancel.setVisibility(View.GONE);
+        lvPosts.setLayoutParams(params);
+        lvPosts.requestLayout();
     }
 }
