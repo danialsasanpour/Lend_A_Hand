@@ -112,44 +112,72 @@
                 android:textStyle="bold"
                 />
 
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            >
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:layout_width="0dp"
+            >
+            <Button
+                android:id="@+id/btnPosts"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:text="Posts"
+                app:cornerRadius="30dp"
+                android:gravity="center"
+                android:backgroundTint="#ff0000"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            >
+            <ImageButton
+                android:id="@+id/imageButtonRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_baseline_filter_list_24"
+                tools:ignore="TouchTargetSizeCheck"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="end"
+                />
         </LinearLayout>
 
 
 
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginHorizontal="20dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_thumb_down_24"
-            />
 
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/sliderRate"
-            android:valueFrom="0"
-            android:valueTo="5"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"/>
 
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_thumb_up_24"
-            />
     </LinearLayout>
 
 
@@ -158,25 +186,19 @@
         android:layout_height="wrap_content"
         />
 
-    <Button
-        android:id="@+id/btnPosts"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="Posts"
-        app:cornerRadius="30dp"
-        android:layout_gravity="center"
-        android:backgroundTint="#ff0000"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:textSize="20sp"
+
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
+
 
 
     <ListView
         android:id="@+id/lvPosts"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:layout_marginHorizontal="30dp"
         android:padding="10dp"
@@ -185,6 +207,97 @@
         android:layout_marginBottom="10dp"
         ></ListView>
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderRadius"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        >
+
+        <LinearLayout
+            android:layout_weight="0.75"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_width="0dp"
+            >
+
+
+            <TextView
+                android:id="@+id/tvRadius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Radius: "
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="2.5"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_width="0dp"
+            >
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="Cancel"
+                android:layout_gravity="center"
+                android:backgroundTint="#EC2C2C"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp"
+                />
+
+            <Button
+                android:id="@+id/btnEditSave"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="Edit"
+                android:layout_gravity="center"
+                android:backgroundTint="#CB1456FF"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:layout_marginRight="40dp"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <Space
         android:layout_width="wrap_content"
