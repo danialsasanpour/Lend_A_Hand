@@ -106,7 +106,7 @@
                 android:id="@+id/tvRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4/5"
+                android:text="0"
                 android:textSize="25sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -129,6 +129,7 @@
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_width="0dp"
             >
         </LinearLayout>
 
@@ -137,6 +138,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:gravity="center"
+            android:layout_width="0dp"
             >
             <Button
                 android:id="@+id/btnPosts"
@@ -157,6 +159,7 @@
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_width="0dp"
             >
             <ImageButton
                 android:id="@+id/imageButtonRefresh"
@@ -185,10 +188,17 @@
 
 
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+
     <ListView
         android:id="@+id/lvPosts"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:layout_marginHorizontal="30dp"
         android:padding="10dp"
@@ -198,6 +208,96 @@
         ></ListView>
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderRadius"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:valueFrom="0"
+            android:valueTo="5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        >
+
+        <LinearLayout
+            android:layout_weight="0.75"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_width="0dp"
+            >
+
+
+            <TextView
+                android:id="@+id/tvRadius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Radius: "
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="2.5"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_width="0dp"
+            >
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="Cancel"
+                android:layout_gravity="center"
+                android:backgroundTint="#EC2C2C"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:layout_marginEnd="5dp"
+                />
+
+            <Button
+                android:id="@+id/btnEditSave"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:text="Edit"
+                android:layout_gravity="center"
+                android:backgroundTint="#CB1456FF"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:layout_marginRight="40dp"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <Space
         android:layout_width="wrap_content"
