@@ -16,11 +16,15 @@ import com.daniall.lend_a_hand.R;
 import com.daniall.lend_a_hand.controllers.All_Job_Posting;
 import com.daniall.lend_a_hand.controllers.Home;
 import com.daniall.lend_a_hand.controllers.post_description;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PostAdapter extends BaseAdapter {
+
+    DatabaseReference posts = FirebaseDatabase.getInstance().getReference("Posts");
 
     private Context context;
     private ArrayList<Post> listOfPosts;
@@ -56,7 +60,7 @@ public class PostAdapter extends BaseAdapter {
 
         ImageView imgProfilePicture;
         TextView tvName, tvDescription;
-        Button btnDetails;
+        Button btnDetails, btnEdit, btnDelete;
 
         LayoutInflater inflater = LayoutInflater.from(context);
         oneItem = inflater.inflate(R.layout.one_post, viewGroup, false);
@@ -65,11 +69,29 @@ public class PostAdapter extends BaseAdapter {
         tvName = oneItem.findViewById(R.id.tvName);
         imgProfilePicture = oneItem.findViewById(R.id.imgProfilePicture);
         btnDetails = oneItem.findViewById(R.id.btnDetails);
+        btnEdit = oneItem.findViewById(R.id.btnEdit);
+        btnDelete = oneItem.findViewById(R.id.btnDelete);
 
         tvDescription.setText(post.getDescription());
         tvName.setText(post.getCreatedBy());
         // Need to add profile picture
 
+        if (!currentUser.getUsername().equals(post.getCreatedBy()))
+        {
+            btnEdit.setVisibility(View.GONE);
+            btnDelete.setVisibility(View.GONE);
+            ViewGroup.LayoutParams params = oneItem.getLayoutParams();
+            params.height = 275;
+            oneItem.setLayoutParams(params);
+        }
+
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posts.child(post.getPostId()).removeValue();
+            }
+        });
 
 
         // Need to implement the button

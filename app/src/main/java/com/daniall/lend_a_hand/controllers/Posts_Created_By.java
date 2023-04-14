@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import model.OnePostCreatedByAdapter;
 import model.Post;
+import model.PostAdapter;
 import model.User;
 
 public class Posts_Created_By extends AppCompatActivity implements View.OnClickListener {
@@ -37,7 +38,7 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
 
     User currentUser, recipientUser;
     ArrayList<Post> listOfPosts;
-    OnePostCreatedByAdapter adapter;
+    PostAdapter adapter;
     Context context = this;
 
 
@@ -80,7 +81,7 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
                         {
                             Post post = ds.getValue(Post.class);
                             listOfPosts.add(post);
-                            adapter = new OnePostCreatedByAdapter(context, listOfPosts, currentUser);
+                            adapter = new PostAdapter(context, listOfPosts, currentUser);
                             lvPosts.setAdapter(adapter);
                         }
                     }
@@ -103,7 +104,7 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
                         {
                             Post post = ds.getValue(Post.class);
                             listOfPosts.add(post);
-                            adapter = new OnePostCreatedByAdapter(context, listOfPosts, currentUser);
+                            adapter = new PostAdapter(context, listOfPosts, currentUser);
                             lvPosts.setAdapter(adapter);
                         }
                     }
