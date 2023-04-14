@@ -116,6 +116,17 @@ public class Location {
     }
 
     public String displayLocation() {
-        return street + ", " + city + ", " + state + ", " + postalCode + ".";
+        return street + ", " + city + ", " + state + ", " + postalCode + ", " + country + ".";
+    }
+
+    public boolean compareTo(Location location)
+    {
+        return this.street.equals(location.street) &&
+                this.city.equals(location.city) &&
+                this.state.equals(location.state) &&
+                this.country.equals(location.country) &&
+                this.postalCode.equals(location.postalCode) &&
+                this.latitude == location.latitude &&
+                this.longitude == location.longitude;
     }
 }

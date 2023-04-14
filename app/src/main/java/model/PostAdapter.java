@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.daniall.lend_a_hand.R;
 import com.daniall.lend_a_hand.controllers.All_Job_Posting;
 import com.daniall.lend_a_hand.controllers.Home;
+import com.daniall.lend_a_hand.controllers.PostEditorDelete;
 import com.daniall.lend_a_hand.controllers.post_description;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -84,14 +85,37 @@ public class PostAdapter extends BaseAdapter {
             params.height = 275;
             oneItem.setLayoutParams(params);
         }
+        else {
+            btnDetails.setVisibility(View.GONE);
+        }
 
+        Intent intent = new Intent(context, PostEditorDelete.class);
+        intent.putExtra("currentUser", currentUser);
+        intent.putExtra("currentPost", post);
+
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("mode", "Edit");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)context).finish();
+                context.startActivity(intent);
+            }
+        });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                posts.child(post.getPostId()).removeValue();
+                intent.putExtra("mode", "Delete");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)context).finish();
+                context.startActivity(intent);
             }
         });
+
 
 
         // Need to implement the button

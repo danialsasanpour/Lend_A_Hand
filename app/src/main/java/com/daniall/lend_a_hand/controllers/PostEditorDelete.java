@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.daniall.lend_a_hand.R;
-import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,21 +34,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import model.Location;
 import model.Post;
 import model.User;
 
-public class Making_Post extends AppCompatActivity implements View.OnClickListener {
+public class PostEditorDelete extends AppCompatActivity implements View.OnClickListener {
 
     EditText edDescription, edLocation;
-    TextView tvTimeFrom, tvTimeTo, tvDateFrom, tvDateTo;
-    Button btnPost;
+    TextView tvTimeFrom, tvTimeTo, tvDateFrom, tvDateTo, tvEditOrDelete;
+    Button btnEditOrDelete;
     ImageButton btnTimeTo, btnTimeFrom, btnDateFrom, btnDateTo,
-                imageButtonHome, imageButtonMessage, imageButtonAccount;
+            imageButtonHome, imageButtonMessage, imageButtonAccount;
     User currentUser;
-
+    Post currentPost;
+    String mode;
     Location foundLocation = null;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -55,12 +56,11 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
     DatabaseReference posts = root.getReference("Posts");
     DatabaseReference locations = root.getReference("Location");
 
-    int timeFromSetHour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_making_post);
+        setContentView(R.layout.activity_post_editor_delete);
 
         initialize();
     }
@@ -68,6 +68,8 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
     private void initialize()
     {
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
+        currentPost = (Post) getIntent().getExtras().getSerializable("currentPost");
+        mode = getIntent().getStringExtra("mode");
 
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
@@ -81,6 +83,7 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         edLocation = findViewById(R.id.edLocation);
 
         tvDateFrom = findViewById(R.id.tvDateFrom);
+        tvEditOrDelete = findViewById(R.id.tvEditorDelete);
         btnDateFrom = findViewById(R.id.imgBtnDateFrom);
         btnDateFrom.setOnClickListener(this);
         tvTimeFrom = findViewById(R.id.tvTimeFrom);
@@ -94,17 +97,54 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         btnTimeTo = findViewById(R.id.imgBtnTimeTo);
         btnTimeTo.setOnClickListener(this);
 
-        btnPost = findViewById(R.id.btnPost);
-        btnPost.setOnClickListener(this);
+        btnEditOrDelete = findViewById(R.id.btnEditorDelete);
+        btnEditOrDelete.setOnClickListener(this);
+
+        initializeFields();
 
     }
+
+    private void initializeFields() {
+        tvEditOrDelete.setText(mode + " post");
+        edDescription.setText(currentPost.getDescription());
+        locations.child(currentPost.getLocation()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Location location = snapshot.getValue(Location.class);
+                edLocation.setText(location.displayLocation());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        tvDateFrom.setText(currentPost.getDateFrom());
+        tvTimeFrom.setText(currentPost.getTimeFrom());
+        tvDateTo.setText(currentPost.getDateTo());
+        tvTimeTo.setText(currentPost.getTimeTo());
+
+        if (mode.equals("Edit"))
+            btnEditOrDelete.setText("Edit");
+        else
+        {
+            btnEditOrDelete.setText("Delete");
+            edDescription.setEnabled(false);
+            edLocation.setEnabled(false);
+            btnDateFrom.setEnabled(false);
+            btnDateTo.setEnabled(false);
+            btnTimeFrom.setEnabled(false);
+            btnTimeTo.setEnabled(false);
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.btnPost:
-                makePost(view);
+            case R.id.btnEditorDelete:
+               editOrDelete(view);
                 break;
             case R.id.imgBtnTimeFrom:
                 setTimes(view, tvTimeFrom);
@@ -148,8 +188,9 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
                 startActivity(intent);
                 break;
         }
-
     }
+
+
 
     private void setDates(View view, TextView tvDate)
     {
@@ -182,12 +223,12 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         // display our date picker dialog.
 
         if (view.getId() == R.id.imgBtnDateFrom) {
-           datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         } else {
             if (!tvDateFrom.getText().equals(""))
             {
-               String strDate = tvDateFrom.getText().toString();
-               SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String strDate = tvDateFrom.getText().toString();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 try {
                     Date date = dateFormat.parse(strDate);
                     datePickerDialog.getDatePicker().setMinDate(date.getTime());
@@ -252,10 +293,21 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void makePost(View view)
+    private void editOrDelete(View view)
     {
-
-
+        Post post = currentPost;
+        if (mode.equals("Delete"))
+        {
+            posts.child(currentPost.getPostId()).removeValue();
+            locations.child(currentPost.getLocation()).removeValue();
+            Intent intent = new Intent(this, Posts_Created_By.class);
+            intent.putExtra("currentUser", currentUser);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            finish();
+            startActivity(intent);
+            return;
+        }
 
         if(edDescription.getText().toString().equals("") ||
                 edLocation.getText().toString().equals("") ||
@@ -278,15 +330,14 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
             Address location = addresses.get(0);
 
             foundLocation = new Location(
-                location.getSubThoroughfare() + " " + location.getThoroughfare(),
-                location.getLocality(),
-                location.getAdminArea(),
-                location.getPostalCode(),
-                location.getCountryName(),
-                location.getLatitude(),
-                location.getLongitude()
+                    location.getSubThoroughfare() + " " + location.getThoroughfare(),
+                    location.getLocality(),
+                    location.getAdminArea(),
+                    location.getPostalCode(),
+                    location.getCountryName(),
+                    location.getLatitude(),
+                    location.getLongitude()
             );
-
 
 
             locations.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -297,7 +348,18 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
                         Location location = ds.getValue(Location.class);
                         if (foundLocation.compareTo(location))
                         {
-                           foundLocation = location;
+                            foundLocation = location;
+                            HashMap<String, Object> locationHashMap = new HashMap<String, Object>();
+                            locationHashMap.put("street", foundLocation.getStreet());
+                            locationHashMap.put("city", foundLocation.getCity());
+                            locationHashMap.put("state", foundLocation.getState());
+                            locationHashMap.put("postalCode", foundLocation.getPostalCode());
+                            locationHashMap.put("country", foundLocation.getCountry());
+                            locationHashMap.put("latitude", foundLocation.getLatitude());
+                            locationHashMap.put("longitude", foundLocation.getLongitude());
+                            locationHashMap.put("locationId", foundLocation.getLocationId());
+
+                            locations.child(foundLocation.getLocationId()).updateChildren(locationHashMap);
                         }
                     }
                 }
@@ -309,7 +371,6 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
             });
 
 
-
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Address is not valid or not found", Toast.LENGTH_LONG).show();
@@ -317,7 +378,7 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         }
 
 
-        Post post = new Post(
+        post = new Post(
                 currentUser.getUsername().toString(),
                 edDescription.getText().toString(),
                 foundLocation.getLocationId(),
@@ -326,9 +387,21 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
                 tvTimeFrom.getText().toString(),
                 tvTimeTo.getText().toString()
         );
-        posts.child(post.getPostId()).setValue(post);
+        post.setPostId(currentPost.getPostId());
 
-        Intent intent = new Intent(this, Home.class);
+        HashMap<String, Object> postHashMap = new HashMap<String, Object>();
+        postHashMap.put("createdBy", post.getCreatedBy());
+        postHashMap.put("description", post.getDescription());
+        postHashMap.put("location", post.getLocation());
+        postHashMap.put("dateFrom", post.getDateFrom());
+        postHashMap.put("dateTo", post.getDateTo());
+        postHashMap.put("timeFrom", post.getTimeFrom());
+        postHashMap.put("timeTo", post.getTimeTo());
+        postHashMap.put("postId", post.getPostId());
+
+        posts.child(post.getPostId()).updateChildren(postHashMap);
+
+        Intent intent = new Intent(this, Posts_Created_By.class);
         intent.putExtra("currentUser", currentUser);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

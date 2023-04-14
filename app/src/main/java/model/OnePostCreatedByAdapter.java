@@ -1,6 +1,8 @@
 package model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daniall.lend_a_hand.R;
+import com.daniall.lend_a_hand.controllers.Home;
+import com.daniall.lend_a_hand.controllers.PostEditorDelete;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -70,10 +74,29 @@ public class OnePostCreatedByAdapter extends BaseAdapter {
         tvDescription.setText(post.getDescription());
         //Implement btnEdit onClickListener here
 
+        Intent intent = new Intent(context, PostEditorDelete.class);
+        intent.putExtra("currentUser", currentUser);
+        intent.putExtra("currentPost", post);
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.putExtra("mode", "Edit");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)context).finish();
+                context.startActivity(intent);
+            }
+        });
+
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                posts.child(post.getPostId()).removeValue();
+                intent.putExtra("mode", "Delete");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)context).finish();
+                context.startActivity(intent);
             }
         });
 
