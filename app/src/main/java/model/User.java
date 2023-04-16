@@ -88,7 +88,7 @@ public class User implements Serializable {
 
     public double getRadius(){ return radius;}
 
-    public void setRadius(float radius){ this.radius = radius;}
+    public void setRadius(double radius){ this.radius = radius;}
 
     public ArrayList<String> getListOfChatLogs(){ return listOfChatLogs;}
 
