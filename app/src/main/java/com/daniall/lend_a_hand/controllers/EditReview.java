@@ -3,31 +3,31 @@ package com.daniall.lend_a_hand.controllers;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daniall.lend_a_hand.R;
 import com.google.android.material.slider.Slider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import model.User;
 import model.ReviewRating;
+import model.User;
 
-public class PostReview extends AppCompatActivity implements View.OnClickListener {
+public class EditReview extends AppCompatActivity implements View.OnClickListener {
 
+    ReviewRating reviewRating;
     User currentUser;
     User toUser;
     TextView tvToUserUsername;
 
     EditText edReviewMessage;
-    Button btnPostReview;
+    Button btnEditReview;
+    Button btnDeleteReview;
     Slider sliderRating;
 
     ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount;
@@ -39,13 +39,14 @@ public class PostReview extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review_rating);
+        setContentView(R.layout.activity_edit_review);
 
         initialize();
     }
 
     private void initialize()
     {
+        reviewRating = (ReviewRating) getIntent().getExtras().getSerializable("reviewRating");
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         toUser = (User) getIntent().getExtras().getSerializable("toUser");
 
@@ -53,10 +54,15 @@ public class PostReview extends AppCompatActivity implements View.OnClickListene
         tvToUserUsername.setText(toUser.getUsername());
 
         edReviewMessage = findViewById(R.id.edReviewMessage);
-        sliderRating = findViewById(R.id.sliderRating);
+        edReviewMessage.setText(reviewRating.getReview());
 
-        btnPostReview = findViewById(R.id.btnPostRating);
-        btnPostReview.setOnClickListener(this);
+        sliderRating = findViewById(R.id.sliderRating);
+        sliderRating.setValue(reviewRating.getRating());
+
+        btnEditReview = findViewById(R.id.btnEditRating);
+        btnDeleteReview = findViewById(R.id.btnDeleteRating);
+        btnEditReview.setOnClickListener(this);
+        btnDeleteReview.setOnClickListener(this);
 
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
@@ -73,8 +79,11 @@ public class PostReview extends AppCompatActivity implements View.OnClickListene
     {
         switch(view.getId())
         {
-            case R.id.btnPostRating:
-                postReview();
+            case R.id.btnEditRating:
+                editReview(view);
+                break;
+            case R.id.btnDeleteRating:
+                deleteReview(view);
                 break;
         }
 
@@ -108,21 +117,18 @@ public class PostReview extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    private void postReview()
+    private void editReview(View view)
     {
-        if (edReviewMessage.getText().toString() == "")
-        {
-            Toast.makeText(this, "One or more fields are empty", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        ReviewRating reviewRating = new ReviewRating(
-                currentUser.getUsername(),
-                toUser.getUsername(),
-                edReviewMessage.getText().toString(),
-                sliderRating.getValue()
-        );
+        reviewRating.setReview(edReviewMessage.getText().toString());
+        reviewRating.setRating(sliderRating.getValue());
         reviewRatings.child(reviewRating.getReviewId()).setValue(reviewRating);
         finish();
     }
+
+    private void deleteReview(View view)
+    {
+        reviewRatings.child(reviewRating.getReviewId()).removeValue();
+        finish();
+    }
+
 }
