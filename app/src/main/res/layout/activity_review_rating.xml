@@ -158,11 +158,11 @@
 
 
         <EditText
-            android:id="@+id/editTextReviewMessage"
+            android:id="@+id/edReviewMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Write a reaview..."
+            android:hint="Write a review..."
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
@@ -173,7 +173,7 @@
             />
 
         <Button
-            android:id="@+id/btnPostTheRating"
+            android:id="@+id/btnPostRating"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="POST"
