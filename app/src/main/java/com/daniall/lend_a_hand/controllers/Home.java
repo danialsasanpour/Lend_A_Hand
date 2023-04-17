@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Tag;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     TextView tvLend;
     ListView lvPosts;
     ImageButton imageButtonHome, imageButtonMessage, imageButtonAccount, imageButtonAdd, imageButtonRefresh;
+    ImageView imageProfilePicture;
     Button btnMore;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -92,6 +95,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
     private void initialize() {
 
+        currentUser =  (User) getIntent().getExtras().getSerializable("currentUser");
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
         tvLend = findViewById(R.id.tvLend);
         lvPosts = findViewById(R.id.lvPosts);
         imageButtonHome = findViewById(R.id.imageButtonHome);
@@ -108,7 +113,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         btnMore.setOnClickListener(this);
         imageButtonRefresh.setOnClickListener(this);
 
-        currentUser =  (User) getIntent().getExtras().getSerializable("currentUser");
+        if (currentUser.getProfilePicture() != null)
+            Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+
         getLastLocation();
 
     }

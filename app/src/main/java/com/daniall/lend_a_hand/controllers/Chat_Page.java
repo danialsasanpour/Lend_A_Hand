@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -35,13 +36,13 @@ import model.User;
 public class Chat_Page extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvUsername;
-    ImageView imageUserProfilePicture;
+    ImageView imageProfilePicture;
     ListView lvMessages;
     EditText edMessage;
     ImageButton imageButtonSend, imageButtonViewPost,
             imageButtonHome, imageButtonMessage, imageButtonAccount;
 
-    User currentUser;
+    User currentUser, user;
     Post currentPost;
     ChatLog currentChatLog;
     Context context = this;
@@ -67,12 +68,13 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         currentPost = (Post) getIntent().getExtras().getSerializable("currentPost");
         currentChatLog = (ChatLog) getIntent().getExtras().getSerializable("currentChatLog");
+        user = (User) getIntent().getExtras().getSerializable("recipientUser");
 
         tvUsername = findViewById(R.id.tvUsername);
         tvUsername.setOnClickListener(this);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
 
-
-        imageUserProfilePicture = findViewById(R.id.imageUserProfilePicture);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
@@ -88,6 +90,12 @@ public class Chat_Page extends AppCompatActivity implements View.OnClickListener
         imageButtonAccount.setOnClickListener(this);
         imageButtonViewPost.setOnClickListener(this);
 
+
+        if (user != null)
+        {
+            if (user.getProfilePicture() != null)
+                Picasso.with(context).load(user.getProfilePicture()).into(imageProfilePicture);
+        }
 
         if (currentChatLog == null)
         {

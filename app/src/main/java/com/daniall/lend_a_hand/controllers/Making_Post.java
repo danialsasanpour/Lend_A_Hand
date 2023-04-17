@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,8 +49,11 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
     Button btnPost;
     ImageButton btnTimeTo, btnTimeFrom, btnDateFrom, btnDateTo,
                 imageButtonHome, imageButtonMessage, imageButtonAccount;
+    ImageView imageProfilePicture;
     User currentUser;
+    boolean locationFound = false;
 
+    Context context = this;
     Location foundLocation = null;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
@@ -72,6 +78,12 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
+
+        if (currentUser.getProfilePicture() != null)
+        {
+            Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+        }
 
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
@@ -220,7 +232,7 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
                         // on below line we are setting selected time
                         // in our text view.
 
-                        tvTime.setText(hourOfDay + ":" + minute);
+                        tvTime.setText(String.format("%02d:%02d", hourOfDay, minute));
 /*
                         if(view.getId() == R.id.imgBtnTimeFrom) {
                             timeFromSetHour = hourOfDay;
@@ -288,18 +300,36 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
             );
 
 
-
             locations.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Post post;
                     for (DataSnapshot ds : snapshot.getChildren())
                     {
                         Location location = ds.getValue(Location.class);
+                        Toast.makeText(context, "" + foundLocation.compareTo(location), Toast.LENGTH_LONG).show();
                         if (foundLocation.compareTo(location))
                         {
                            foundLocation = location;
+                           locationFound = true;
+                           break;
                         }
                     }
+
+
+                    if (!locationFound)
+                        locations.child(foundLocation.getLocationId()).setValue(foundLocation);
+
+                    post = new Post(
+                            currentUser.getUsername().toString(),
+                            edDescription.getText().toString(),
+                            foundLocation.getLocationId(),
+                            tvDateFrom.getText().toString(),
+                            tvDateTo.getText().toString(),
+                            tvTimeFrom.getText().toString(),
+                            tvTimeTo.getText().toString()
+                    );
+                    posts.child(post.getPostId()).setValue(post);
                 }
 
                 @Override
@@ -316,17 +346,6 @@ public class Making_Post extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
-
-        Post post = new Post(
-                currentUser.getUsername().toString(),
-                edDescription.getText().toString(),
-                foundLocation.getLocationId(),
-                tvDateFrom.getText().toString(),
-                tvDateTo.getText().toString(),
-                tvTimeFrom.getText().toString(),
-                tvTimeTo.getText().toString()
-        );
-        posts.child(post.getPostId()).setValue(post);
 
         Intent intent = new Intent(this, Home.class);
         intent.putExtra("currentUser", currentUser);

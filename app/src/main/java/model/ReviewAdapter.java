@@ -47,14 +47,14 @@ public class ReviewAdapter extends BaseAdapter {
         View oneItem;
 
         TextView tvReview, tvName;
-        ImageView imgProfilePicture;
+        ImageView imageProfilePicture;
 
         LayoutInflater inflater = LayoutInflater.from(context);
         oneItem = inflater.inflate(R.layout.one_review, parent, false);
 
         tvReview = oneItem.findViewById(R.id.tvReview);
         tvName = oneItem.findViewById(R.id.tvName);
-        imgProfilePicture = oneItem.findViewById(R.id.imgProfilePicture);
+        imageProfilePicture = oneItem.findViewById(R.id.imageProfilePicture);
 
         tvReview.setText(review.getReview());
         tvName.setText(review.getByUser());

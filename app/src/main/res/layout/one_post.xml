@@ -45,7 +45,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imgProfilePicture"
+                android:id="@+id/imageProfilePicture"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/defaultavatar"

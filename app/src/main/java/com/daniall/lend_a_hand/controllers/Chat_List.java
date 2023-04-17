@@ -101,6 +101,7 @@ public class Chat_List extends AppCompatActivity implements View.OnClickListener
 
                 }
 
+
                 Collections.sort(listOfChatLogs, new Comparator<ChatLog>() {
                     @Override
                     public int compare(ChatLog o1, ChatLog o2) {

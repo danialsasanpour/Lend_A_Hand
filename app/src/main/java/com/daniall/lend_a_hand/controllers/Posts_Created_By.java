@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,6 +34,7 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
     TextView tvPostsCreatedBy;
     ListView lvPosts;
     ImageButton imageButtonAdd, imageButtonHome, imageButtonMessage, imageButtonAccount;
+    ImageView imageProfilePicture;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference posts = root.getReference("Posts");
@@ -68,6 +71,11 @@ public class Posts_Created_By extends AppCompatActivity implements View.OnClickL
         imageButtonAccount.setOnClickListener(this);
         tvPostsCreatedBy.setText("Posts created by: ");
         listOfPosts = new ArrayList<Post>();
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
+        if (currentUser.getProfilePicture() != null)
+        {
+            Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+        }
 
         if (recipientUser != null) {
             tvPostsCreatedBy.setText(tvPostsCreatedBy.getText() + recipientUser.getUsername());
