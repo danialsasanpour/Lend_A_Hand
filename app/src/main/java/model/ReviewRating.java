@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class ReviewRating {
+public class ReviewRating implements Serializable {
 
     private String reviewId;
     private String byUser;
