@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,10 +48,12 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
     Button btnEditOrDelete;
     ImageButton btnTimeTo, btnTimeFrom, btnDateFrom, btnDateTo,
             imageButtonHome, imageButtonMessage, imageButtonAccount;
+    ImageView imageProfilePicture;
     User currentUser;
-    Post currentPost;
+    Post currentPost, post;
     String mode;
     Location foundLocation = null;
+    boolean locationFound;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference users = root.getReference("Users");
@@ -89,6 +93,11 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
         tvTimeFrom = findViewById(R.id.tvTimeFrom);
         btnTimeFrom = findViewById(R.id.imgBtnTimeFrom);
         btnTimeFrom.setOnClickListener(this);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
+        if (currentUser.getProfilePicture() != null)
+        {
+            Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+        }
 
         tvDateTo = findViewById(R.id.tvDateTo);
         btnDateTo = findViewById(R.id.imgBtnDateTo);
@@ -261,7 +270,8 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
                         // on below line we are setting selected time
                         // in our text view.
 
-                        tvTime.setText(hourOfDay + ":" + minute);
+                        tvTime.setText(String.format("%02d:%02d", hourOfDay, minute));
+
 /*
                         if(view.getId() == R.id.imgBtnTimeFrom) {
                             timeFromSetHour = hourOfDay;
@@ -295,7 +305,7 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
 
     private void editOrDelete(View view)
     {
-        Post post = currentPost;
+        post = currentPost;
         if (mode.equals("Delete"))
         {
             posts.child(currentPost.getPostId()).removeValue();
@@ -339,6 +349,7 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
                     location.getLongitude()
             );
 
+            locationFound = false;
 
             locations.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -348,6 +359,7 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
                         Location location = ds.getValue(Location.class);
                         if (foundLocation.compareTo(location))
                         {
+                            locationFound = true;
                             foundLocation = location;
                             HashMap<String, Object> locationHashMap = new HashMap<String, Object>();
                             locationHashMap.put("street", foundLocation.getStreet());
@@ -362,6 +374,33 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
                             locations.child(foundLocation.getLocationId()).updateChildren(locationHashMap);
                         }
                     }
+
+                    if (!locationFound)
+                        locations.child(foundLocation.getLocationId()).setValue(foundLocation);
+
+
+                    post = new Post(
+                            currentUser.getUsername().toString(),
+                            edDescription.getText().toString(),
+                            foundLocation.getLocationId(),
+                            tvDateFrom.getText().toString(),
+                            tvDateTo.getText().toString(),
+                            tvTimeFrom.getText().toString(),
+                            tvTimeTo.getText().toString()
+                    );
+                    post.setPostId(currentPost.getPostId());
+
+                    HashMap<String, Object> postHashMap = new HashMap<String, Object>();
+                    postHashMap.put("createdBy", post.getCreatedBy());
+                    postHashMap.put("description", post.getDescription());
+                    postHashMap.put("location", post.getLocation());
+                    postHashMap.put("dateFrom", post.getDateFrom());
+                    postHashMap.put("dateTo", post.getDateTo());
+                    postHashMap.put("timeFrom", post.getTimeFrom());
+                    postHashMap.put("timeTo", post.getTimeTo());
+                    postHashMap.put("postId", post.getPostId());
+
+                    posts.child(post.getPostId()).updateChildren(postHashMap);
                 }
 
                 @Override
@@ -378,28 +417,6 @@ public class PostEditorDelete extends AppCompatActivity implements View.OnClickL
         }
 
 
-        post = new Post(
-                currentUser.getUsername().toString(),
-                edDescription.getText().toString(),
-                foundLocation.getLocationId(),
-                tvDateFrom.getText().toString(),
-                tvDateTo.getText().toString(),
-                tvTimeFrom.getText().toString(),
-                tvTimeTo.getText().toString()
-        );
-        post.setPostId(currentPost.getPostId());
-
-        HashMap<String, Object> postHashMap = new HashMap<String, Object>();
-        postHashMap.put("createdBy", post.getCreatedBy());
-        postHashMap.put("description", post.getDescription());
-        postHashMap.put("location", post.getLocation());
-        postHashMap.put("dateFrom", post.getDateFrom());
-        postHashMap.put("dateTo", post.getDateTo());
-        postHashMap.put("timeFrom", post.getTimeFrom());
-        postHashMap.put("timeTo", post.getTimeTo());
-        postHashMap.put("postId", post.getPostId());
-
-        posts.child(post.getPostId()).updateChildren(postHashMap);
 
         Intent intent = new Intent(this, Posts_Created_By.class);
         intent.putExtra("currentUser", currentUser);

@@ -1,9 +1,17 @@
 package com.daniall.lend_a_hand.controllers;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.daniall.lend_a_hand.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.Slider;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -11,14 +19,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,7 +42,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import model.ReviewAdapter;
 import model.ReviewRating;
@@ -39,6 +57,7 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
     Button btnPosts, btnLeaveReviewRating, btnCancel, btnEditSave;
     TextView tvUsername, tvRadius, tvRate;
     Slider sliderRadius;
+    ImageView imageProfilePicture;
 
     Boolean imageButtonFilterClicked = false;
     User currentUser, recipientUser;
@@ -48,10 +67,15 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
     ReviewAdapter adapter;
     Context context = this;
 
+    ActivityResultLauncher activityResultLauncher;
+    Uri filePath;
+    StorageReference newImageReference;
+
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference users = root.getReference("Users");
     DatabaseReference reviews = root.getReference("ReviewRatings");
+    StorageReference rootStorage = FirebaseStorage.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +103,8 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
         tvRadius = findViewById(R.id.tvRadius);
         btnCancel = findViewById(R.id.btnCancel);
         btnEditSave = findViewById(R.id.btnEditSave);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
+        imageProfilePicture.setOnClickListener(this);
 
         imageButtonHome.setOnClickListener(this);
         imageButtonMessage.setOnClickListener(this);
@@ -90,6 +116,16 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
         btnCancel.setOnClickListener(this);
         btnEditSave.setOnClickListener(this);
 
+        if (recipientUser != null)
+        {
+            if (recipientUser.getProfilePicture() != null)
+                Picasso.with(this).load(recipientUser.getProfilePicture()).into(imageProfilePicture);
+        }
+        else {
+            if (currentUser.getProfilePicture() != null)
+                Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+        }
+
 
         checkIfIsCurrentUser();
 
@@ -98,6 +134,28 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
 
 
         reviews.addValueEventListener(this);
+
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+
+                    filePath = result.getData().getData();
+
+                    try {
+                        ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), filePath);
+                        Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+                        saveProfilePicture(bitmap);
+                    }
+                    catch (IOException e) {
+                        Toast.makeText(context, "" + e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(context, "" + e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
 
@@ -140,7 +198,15 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
+        if (v.getId() == R.id.imageProfilePicture)
+        {
+            if (recipientUser == null)
+            {
+                clickAndSaveProfilePicture();
+            }
 
+            return;
+        }
 
         Intent intent = new Intent(this, Home.class);
         switch(v.getId())
@@ -233,6 +299,47 @@ public class Account_Details extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+
+    private void saveProfilePicture(Bitmap bitmap){
+        if (filePath != null)
+        {
+            newImageReference = rootStorage.child("/images/" + UUID.randomUUID());
+            newImageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(context, "Image uploaded successfully", + Toast.LENGTH_LONG).show();
+                    newImageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            String newImageUrl = task.getResult().toString();
+                            currentUser.setProfilePicture(newImageUrl);
+                            users.child(currentUser.getUsername() + "/profilePicture").setValue(currentUser.getProfilePicture());
+                            imageProfilePicture.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+            });
+
+            newImageReference.putFile(filePath).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+    }
+
+    private void clickAndSaveProfilePicture() {
+
+        Intent intent;
+        intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        activityResultLauncher.launch(Intent.createChooser(intent, "Please select a photo"));
+
 
     }
 }

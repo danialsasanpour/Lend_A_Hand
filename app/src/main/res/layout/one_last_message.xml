@@ -14,7 +14,7 @@
 
 
     <ImageView
-        android:id="@+id/imageMessageReceiver"
+        android:id="@+id/imageProfilePicture"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/defaultavatar"

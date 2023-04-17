@@ -12,13 +12,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.daniall.lend_a_hand.R;
 import com.daniall.lend_a_hand.controllers.All_Job_Posting;
 import com.daniall.lend_a_hand.controllers.Home;
 import com.daniall.lend_a_hand.controllers.PostEditorDelete;
 import com.daniall.lend_a_hand.controllers.post_description;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,6 +32,7 @@ import java.util.ArrayList;
 public class PostAdapter extends BaseAdapter {
 
     DatabaseReference posts = FirebaseDatabase.getInstance().getReference("Posts");
+    DatabaseReference users = FirebaseDatabase.getInstance().getReference("Users");
 
     private Context context;
     private ArrayList<Post> listOfPosts;
@@ -59,7 +66,7 @@ public class PostAdapter extends BaseAdapter {
         Post post = (Post)getItem(i);
         View oneItem;
 
-        ImageView imgProfilePicture;
+        ImageView imageProfilePicture;
         TextView tvName, tvDescription;
         Button btnDetails, btnEdit, btnDelete;
 
@@ -68,7 +75,7 @@ public class PostAdapter extends BaseAdapter {
 
         tvDescription = oneItem.findViewById(R.id.tvDescription);
         tvName = oneItem.findViewById(R.id.tvName);
-        imgProfilePicture = oneItem.findViewById(R.id.imgProfilePicture);
+        imageProfilePicture = oneItem.findViewById(R.id.imageProfilePicture);
         btnDetails = oneItem.findViewById(R.id.btnDetails);
         btnEdit = oneItem.findViewById(R.id.btnEdit);
         btnDelete = oneItem.findViewById(R.id.btnDelete);
@@ -76,6 +83,23 @@ public class PostAdapter extends BaseAdapter {
         tvDescription.setText(post.getDescription());
         tvName.setText(post.getCreatedBy());
         // Need to add profile picture
+        users.child(post.getCreatedBy()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                {
+                    User user = snapshot.getValue(User.class);
+                    if (user.getProfilePicture() != null)
+                        Picasso.with(context).load(user.getProfilePicture()).into(imageProfilePicture);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         if (!currentUser.getUsername().equals(post.getCreatedBy()))
         {

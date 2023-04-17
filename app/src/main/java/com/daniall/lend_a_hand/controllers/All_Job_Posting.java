@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,7 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
 
     ImageButton imageButtonRefresh, imageButtonHome, imageButtonMessage, imageButtonAccount;
     ListView lvPosts;
+    ImageView imageProfilePicture;
 
     FirebaseDatabase root = FirebaseDatabase.getInstance();
     DatabaseReference users = root.getReference("Users");
@@ -75,11 +78,18 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
 
     private void initialize() {
 
+        currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         imageButtonRefresh = findViewById(R.id.imageButtonRefresh);
         imageButtonHome = findViewById(R.id.imageButtonHome);
         imageButtonMessage = findViewById(R.id.imageButtonMessage);
         imageButtonAccount = findViewById(R.id.imageButtonAccount);
         lvPosts = findViewById(R.id.lvPosts);
+        imageProfilePicture = findViewById(R.id.imageProfilePicture);
+
+        if (currentUser.getProfilePicture() != null)
+        {
+            Picasso.with(this).load(currentUser.getProfilePicture()).into(imageProfilePicture);
+        }
 
         imageButtonRefresh.setOnClickListener(this);
         imageButtonHome.setOnClickListener(this);
@@ -87,7 +97,6 @@ public class All_Job_Posting extends AppCompatActivity implements View.OnClickLi
         imageButtonAccount.setOnClickListener(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
         getLastLocation();
     }
 
